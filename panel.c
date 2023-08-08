@@ -202,7 +202,7 @@ static FILE *confp   = NULL;            /* Console file pointer      */
 
 ///////////////////////////////////////////////////////////////////////
 
-#define CMD_PREFIX_HERC     "herc =====> "
+#define CMD_PREFIX_HERC     "Aethra HMC => "
 #define CMD_PREFIX_LEN      (strlen(CMD_PREFIX_HERC))
 #define CMDLINE_ROW         ((short)(cons_rows-1))
 #define CMDLINE_COL         ((short)(CMD_PREFIX_LEN+1))
@@ -681,7 +681,7 @@ static void NP_screen_redraw (REGS *regs)
     /* Line 1 - title line */
     set_color (COLOR_WHITE, COLOR_BLUE );
     set_pos   (1, 1);
-    draw_text ("  Hercules");
+    draw_text ("  Aethra");
     if (sysblk.hicpu)
     {
         fill_text (' ', 16);
