@@ -19,7 +19,7 @@
 
 #include "hercules.h"
 
-#if defined(OPTION_HAO)
+#if defined(ENABLE_HAO)
 
 /*---------------------------------------------------------------------------*/
 /* constants                                                                 */
@@ -838,4 +838,4 @@ static void hao_message(char *buf)
     release_lock(&ao_lock);
 }
 
-#endif /* defined(OPTION_HAO) */
+#endif /* defined(ENABLE_HAO) */

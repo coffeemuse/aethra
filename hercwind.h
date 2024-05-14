@@ -143,7 +143,7 @@ struct dirent
   #define  PCRE_DATA_SCOPE
       // extern __declspec(dllimport)
   #include PCRE_INCNAME                 // (passed by makefile)
-  #define  OPTION_HAO                   // Hercules Automatic Operator
+  #define  ENABLE_HAO                   // Hercules Automatic Operator
 #endif
 
 // IDs for various POSIX.1b interval timers and system clocks

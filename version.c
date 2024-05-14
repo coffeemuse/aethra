@@ -667,7 +667,7 @@ static const char *build_info[] = {
     "Without Regina REXX support",
 #endif
 
-#if defined(OPTION_HAO)
+#if defined(ENABLE_HAO)
     "With    Automatic Operator support",
 #else
     "Without Automatic Operator support",

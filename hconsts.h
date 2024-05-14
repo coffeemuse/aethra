@@ -18,13 +18,12 @@
 /*                     Maximum CPU Engines                           */
 /*-------------------------------------------------------------------*/
 
-#if !defined( MAX_CPU_ENGS )
-  #if defined( HAVE___INT128_T )
-    #define MAX_CPU_ENGS      128
-  #else
-    #define MAX_CPU_ENGS       64
-  #endif
+#if defined( HAVE___INT128_T )
+  #define MAX_CPU_ENGS      128
+#else
+  #define MAX_CPU_ENGS       64
 #endif
+
 
 // (PREFERRED default MAX_CPU_ENGS)
 #define PREF_DEF_MAXCPU         8       /* Default sysblk.maxcpu

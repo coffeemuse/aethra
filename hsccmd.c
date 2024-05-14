@@ -9173,7 +9173,7 @@ int sizeof_cmd( int argc, char* argv[], char* cmdline )
     return 0;
 }
 
-#if defined( OPTION_HAO )
+#if defined( ENABLE_HAO )
 /*-------------------------------------------------------------------*/
 /* hao - Hercules Automatic Operator                                 */
 /*-------------------------------------------------------------------*/
@@ -9184,7 +9184,7 @@ int hao_cmd(int argc, char *argv[], char *cmdline)
     hao_command(cmdline);   /* (actual HAO code is in module hao.c) */
     return 0;
 }
-#endif /* defined( OPTION_HAO ) */
+#endif /* defined( ENABLE_HAO ) */
 
 /*-------------------------------------------------------------------*/
 /* conkpalv - set console session TCP keepalive values               */

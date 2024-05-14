@@ -103,9 +103,9 @@ HPAN_DLL_IMPORT void update_maxrates_hwm(); // (update high-water-mark values)
 HPAN_DLL_IMPORT void set_panel_colors();    // (set panel message colors)
 
 /* Functions in module hao.c (Hercules Automatic Operator) */
-#if defined(OPTION_HAO)
+#if defined(ENABLE_HAO)
 HAO_DLL_IMPORT void hao_command(char *command); /* process hao command */
-#endif /* defined(OPTION_HAO) */
+#endif /* defined(ENABLE_HAO) */
 
 /* Functions in module hsccmd.c (so PTT debugging patches can access them) */
 extern int quit_cmd(     int argc, char* argv[], char* cmdline );
