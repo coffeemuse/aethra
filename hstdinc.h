@@ -232,8 +232,7 @@
   #define  ATTR_REGPARM(n)      /* nothing */
 #endif
 
-#if defined( HAVE_ATTR_PRINTF ) // (must follow "hercwind.h")
-  /* GCC presumed */
+#if !defined( _MSVC_ ) // (must follow "hercwind.h")
   #define  ATTR_PRINTF(f,v)     __attribute__ (( format( printf, f, v )))
 #else
   #define  ATTR_PRINTF(f,v)     /* nothing */
