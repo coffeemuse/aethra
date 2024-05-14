@@ -133,8 +133,6 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
 /*  malloc_aligned:   Allocate memory to a specified boundary.       */
 /*  calloc_aligned:   malloc_aligned + memset(0). Note: not meant    */
 /*                    for very large storage areas such as mainstor. */
-/*                    Use the HPCALLOC/HPCFREE macros further below  */
-/*                    for very large mainsize/mainstor allocations.  */
 /*  free_aligned:     Free memory aligned previously aligned to      */
 /*                    a boundary.                                    */
 /*                                                                   */
@@ -203,38 +201,10 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
 
 #endif
 
-
-/*-------------------------------------------------------------------*/
-/*                  PVALLOC/VALLOC/VFREE                             */
-/*-------------------------------------------------------------------*/
-/*                                                                   */
-/*                   ***  DEPRECATED!  ***                           */
-/*                                                                   */
-/*       See "IMPORTANT PROGRAMMING NOTE" further below              */
-/*                                                                   */
-/*-------------------------------------------------------------------*/
-
-#if defined(HAVE_PVALLOC) && defined(HAVE_VALLOC)
-  #define PVALLOC     pvalloc
-  #define PVFREE      free
-  #define VALLOC      valloc
-  #define VFREE       free
-#else
-  #define PVALLOC     valloc
-  #define PVFREE      free
-  #define VALLOC      valloc
-  #define VFREE       free
-#endif
-
 /*-------------------------------------------------------------------*/
 /*                MAINSIZE / MAINSTOR MACROS                         */
 /*-------------------------------------------------------------------*/
 /*                                                                   */
-/*    HPCALLOC:    Hercules page-aligned 'calloc'. Used *ONLY*       */
-/*                 for allocating mainstor and xpndstor since it     */
-/*                 also automatically sets main_clear/xpnd_clear.    */
-/*    HPCFREE:     free the memory allocated by HPCALLOC. The        */
-/*                 main_clear/xpnd_clear is automatically reset.     */
 /*    HPAGESIZE:   Retrieves the HOST system's page size.            */
 /*    MLOCK:       locks a range of memory.                          */
 /*    MUNLOCK:     unlocks a range of memory.                        */
@@ -244,80 +214,25 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
 #define  HPC_MAINSTOR     1        /* mainstor being allocated/freed */
 #define  HPC_XPNDSTOR     2        /* xpndstor being allocated/freed */
 
-#if defined(_MSVC_)
-    #define  OPTION_CALLOC_GUESTMEM
-#else
-    #undef   OPTION_CALLOC_GUESTMEM
-#endif
-
-#if !defined( OPTION_CALLOC_GUESTMEM )
+#if !defined( _MSVC_ )
 
 /*---------------------------------------------------------------------
 
-                ---  IMPORTANT PROGRAMMING NOTE  ---
-
-    'valloc' and 'getpagesize' are non-POSIX and both are deprecated
-    and considered obsolete on most all *nix platforms. Valloc/pvalloc
-    are also known to be buggy on many systems:
-
-        http://linux.die.net/man/2/getpagesize
-
-        "SVr4, 4.4BSD, SUSv2. In SUSv2 the getpagesize() call is
-        labeled LEGACY, and in POSIX.1-2001 it has been dropped.
-        HP-UX does not have this call."
-
-        http://linux.die.net/man/3/valloc
-
-        "The obsolete function memalign() allocates size bytes and
-        returns a pointer to the allocated memory. The memory address
-        will be a multiple of boundary, which must be a power of two."
-
-        "The obsolete function valloc() allocates size bytes and
-        returns a pointer to the allocated memory. The memory address
-        will be a multiple of the page size. It is equivalent to
-        memalign(sysconf(_SC_PAGESIZE),size)."
-
-        "... Some systems provide no way to reclaim memory allocated
-        with memalign() or valloc() (because one can only pass to
-        free() a pointer gotten from malloc(), ..."
-
-        "The function valloc() appeared in 3.0BSD. It is documented
-        as being obsolete in 4.3BSD, and as legacy in SUSv2. It does
-        not appear in POSIX.1-2001."
-
-
-               ---  USE AT YOUR OWN RISK  ---
+    The getpagesize, pvalloc, and valloc calls have all been removed.
+    They were old, obsolete, and known to be buggy. 
 
 ---------------------------------------------------------------------*/
 
-  #define      HPCALLOC(t,a)    PVALLOC(a)
-  #define      HPCFREE(t,a)     PVFREE(a)
-  #define      HPAGESIZE        getpagesize
-    #define    MLOCK            mlock
-    #define    MUNLOCK          munlock
+  #define      HPAGESIZE()      sysconf(_SC_PAGESIZE)
+  #define      MLOCK            mlock
+  #define      MUNLOCK          munlock
 
-#else // defined( OPTION_CALLOC_GUESTMEM )
+#else // defined( _MSVC_ )
 
-  #define      HPCALLOC(t,a)    hpcalloc((t),(a))
-  #define      HPCFREE(t,a)     hpcfree((t),(a))
+  #define      HPAGESIZE        w32_hpagesize
+  #define      MLOCK            w32_mlock
+  #define      MUNLOCK          w32_munlock
 
-  #if defined(_MSVC_)
-
-    #define    HPAGESIZE        w32_hpagesize
-    #define    MLOCK            w32_mlock
-    #define    MUNLOCK          w32_munlock
-
-  #else /* !defined(_MSVC_) */
-
-    #define    HPAGESIZE        getpagesize
-
-      #define  MLOCK            mlock
-      #define  MUNLOCK          munlock
-
-  #endif /* defined(_MSVC_) */
-
-#endif // !defined( OPTION_CALLOC_GUESTMEM )
-
-
+#endif // !defined( MSVC )
 
 #endif // _HMALLOC_H
