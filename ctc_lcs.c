@@ -641,8 +641,7 @@ void LCS_Assist( PLCSPORT pLCSPORT )
 
     // Check if tuntap can also do segmentation offloading for us.
 
-#if 0 /* Disable for now. TCP Segment Offload needs
-         to be enabled by stack using LCS */
+#if 0 /* Disable for now. TCP Segment Offload needs to be enabled by stack using LCS */
 #if defined( TUNSETOFFLOAD ) && defined( TUN_F_TSO4 ) && defined( TUN_F_UFO )
     /* Only do offload if doing TAP checksum offload */
     if (!pLCSPORT->fDoCkSumOffload)

@@ -593,7 +593,6 @@ static inline int cmpxchg16_e2k(U64 *old1, U64 *old2, U64 new1, U64 new2,
 /*-------------------------------------------------------------------
  * C11_ATOMICS_AVAILABLE
  *-------------------------------------------------------------------*/
-#if defined( C11_ATOMICS_AVAILABLE )
 
 #if defined( cmpxchg1 ) && !defined( C11_ATOMICS_ASSISTS_NOT_PREFERRED )
   #undef cmpxchg1
@@ -651,7 +650,6 @@ inline void store_dw_e2k_noswap ( volatile void* ptr, U64 value )
 
 #endif /* defined(__e2k__) && defined(__LCC__) */
 
-#endif /* defined( C11_ATOMICS_AVAILABLE ) */
 
 #endif // !defined( _MSVC_ )
 

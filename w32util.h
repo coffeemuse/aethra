@@ -46,37 +46,14 @@ W32_DLL_IMPORT  DWORD w32_NtStatusToLastError( NTSTATUS ntStatus );
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-#if !defined( HAVE_SOCKETPAIR )
-  W32_DLL_IMPORT int socketpair( int domain, int type, int protocol, int socket_vector[2] );
-#endif
 
-#if !defined( HAVE_FORK )
-  W32_DLL_IMPORT pid_t  fork( void );
-#endif
 
-#if !defined( HAVE_STRTOK_R )
-W32_DLL_IMPORT char* strtok_r ( char* s, const char* sep, char** lasts);
-#endif
 
 #define BILLION  1000000000
 #define MILLION  1000000
 
-#if !defined( HAVE_GETTIMEOFDAY )
-  #define DEF_GTOD_RESYNC_SECS      30          // (host clock resync freq)
-  #define MAX_GTOD_RESOLUTION       BILLION     // (nanosecond resolution)
-  #define MIN_GTOD_RESOLUTION       MILLION     // (microsecond resolution)
-  typedef int   clockid_t;
-  W32_DLL_IMPORT int clock_gettime ( clockid_t clk_id, struct timespec* ts );
-  W32_DLL_IMPORT int gettimeofday ( struct timeval* pTV, void* pTZ );
-#endif
 
-#if !defined( HAVE_NANOSLEEP )
-  W32_DLL_IMPORT int nanosleep ( const struct timespec* rqtp, struct timespec* rmtp );
-#endif
 
-#if !defined( HAVE_USLEEP )
-  W32_DLL_IMPORT int usleep ( useconds_t  useconds );
-#endif
 
 // Can't use "HAVE_SLEEP" since Win32's "Sleep" causes HAVE_SLEEP to
 // be erroneously #defined due to autoconf AC_CHECK_FUNCS case issues...
@@ -85,59 +62,14 @@ W32_DLL_IMPORT char* strtok_r ( char* s, const char* sep, char** lasts);
   W32_DLL_IMPORT unsigned sleep ( unsigned seconds );
 //#endif
 
-#if !defined( HAVE_SCHED_YIELD )
-  W32_DLL_IMPORT int sched_yield ( void );
-#endif
 
-#if !defined( HAVE_GETPGRP )
-  #define  getpgrp  getpid
-#endif
 
-#if !defined( HAVE_SCANDIR )
-  W32_DLL_IMPORT int scandir
-  (
-    const char *dir,
-    struct dirent ***namelist,
-    int (*filter)(      struct dirent *),
-    int (*compar)(const struct dirent **, const struct dirent **)
-  );
-#endif
 
-#if !defined( HAVE_ALPHASORT )
-  W32_DLL_IMPORT int alphasort ( const struct dirent **a, const struct dirent **b );
-#endif
 
-#if !defined(HAVE_SYS_RESOURCE_H)
-  // Note: We only provide the absolute minimum required information;
-  //       RUSAGE_BOTH not defined as RUSAGE_BOTH is deprecated.
-  #define  RUSAGE_SELF      ( 0)    // Current process
-  #define  RUSAGE_CHILDREN  (-1)    // Children of the current process
-  #define  RUSAGE_THREAD    ( 1)    // Current thread
-  struct rusage                     // Resource utilization information
-  {
-    struct timeval  ru_utime;       // User time used
-    struct timeval  ru_stime;       // System time used
-  };
-  W32_DLL_IMPORT int getrusage ( int who, struct rusage* r_usage );
-  W32_DLL_IMPORT int pthread_getcpuclockid ( TID tid, clockid_t* clk_id );
-  #define _POSIX_THREAD_CPUTIME (1) // Indicate pthread_getcpuclockid() presence
-#endif
 
-#if !defined(HAVE_DECL_LOGIN_NAME_MAX) || !HAVE_DECL_LOGIN_NAME_MAX
-  #define  LOGIN_NAME_MAX  UNLEN
-#endif
 
-#if !defined( HAVE_GETLOGIN )
-  W32_DLL_IMPORT char* getlogin ( void );
-#endif
 
-#if !defined( HAVE_GETLOGIN_R )
-  W32_DLL_IMPORT int getlogin_r ( char* name, size_t namesize );
-#endif
 
-#if !defined( HAVE_REALPATH )
-  W32_DLL_IMPORT char* realpath ( const char* file_name, char* resolved_name );
-#endif
 
 // The inet_aton() function converts the specified string,
 // in the Internet standard dot notation, to a network address,

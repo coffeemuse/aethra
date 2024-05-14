@@ -324,11 +324,7 @@
 #define MAX_DEVICE_THREADS          0   /* (0 == unlimited)          */
 #define MIXEDCASE_FILENAMES_ARE_UNIQUE  /* ("Foo" and "fOo" unique)  */
 
-#if defined( HAVE_FORK )
   #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_FORK_API_FOR_SH_COMMAND
-#else
-  #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_ANSI_SYSTEM_API_FOR_SH_COMMAND
-#endif
 #define SET_CONSOLE_CURSOR_SHAPE_METHOD   CURSOR_SHAPE_VIA_SPECIAL_LINUX_ESCAPE
 #undef  OPTION_EXTCURS                  /* Normal cursor handling    */
 #define SCANDIR_CONST_STRUCT_DIRENT     /* define if scandir uses
@@ -352,11 +348,7 @@
 #define OPTION_FBA_BLKDEVICE            /* FBA block device support  */
 #define MAX_DEVICE_THREADS        255   /* (0 == unlimited)          */
 #define MIXEDCASE_FILENAMES_ARE_UNIQUE  /* ("Foo" and "fOo" unique)  */
-#if defined( HAVE_FORK )
   #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_FORK_API_FOR_SH_COMMAND
-#else
-  #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_ANSI_SYSTEM_API_FOR_SH_COMMAND
-#endif
 #define SET_CONSOLE_CURSOR_SHAPE_METHOD   CURSOR_SHAPE_NOT_SUPPORTED
 #undef  OPTION_EXTCURS                  /* Normal cursor handling    */
 #define SCANDIR_CONST_STRUCT_DIRENT     /* define if scandir uses
@@ -381,11 +373,7 @@ WARNING( "unknown target platform: defaulting to generic platform settings" )
 #undef  OPTION_FBA_BLKDEVICE            /* (no FBA BLKDEVICE support)*/
 #define MAX_DEVICE_THREADS          0   /* (0 == unlimited)          */
 #define MIXEDCASE_FILENAMES_ARE_UNIQUE  /* ("Foo" and "fOo" unique)  */
-#if defined( HAVE_FORK )
   #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_FORK_API_FOR_SH_COMMAND
-#else
-  #define HOW_TO_IMPLEMENT_SH_COMMAND     USE_ANSI_SYSTEM_API_FOR_SH_COMMAND
-#endif
 #define SET_CONSOLE_CURSOR_SHAPE_METHOD   CURSOR_SHAPE_NOT_SUPPORTED
 #undef  OPTION_EXTCURS                  /* Normal cursor handling    */
 #define SCANDIR_CONST_STRUCT_DIRENT     /* define if scandir uses

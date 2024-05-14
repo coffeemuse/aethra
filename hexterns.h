@@ -14,9 +14,6 @@
 #include "hercules.h"
 #include "cckd.h"
 
-#if !defined(HAVE_STRSIGNAL)
-  const char* strsignal(int signo);    // (ours is in 'strsignal.c')
-#endif
 
 #if defined(HAVE_SETRESUID)
 /* (the following missing from SUSE 7.1) */

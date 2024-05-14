@@ -50,17 +50,7 @@
   /* is configured and that only the interface name is to be set.    */
   #define IFF_NO_HERCIFC  0x10000
 
-#if !defined(HAVE_NET_IF_H)
-  /* Standard interface flags. */
-  #define IFF_UP          0x1       /* interface is up               */
-  #define IFF_BROADCAST   0x2       /* broadcast address valid       */
-  #define IFF_DEBUG       0x4       /* Turn on debugging.            */
-  #define IFF_LOOPBACK    0x8       /* is a loopback net             */
-  #define IFF_NOTRAILERS  0x20      /* avoid use of trailers         */
-  #define IFF_RUNNING     0x40      /* resources allocated           */
-  #define IFF_PROMISC     0x100     /* receive all packets           */
-  #define IFF_MULTICAST   0x1000    /* Supports multicast            */
-#elif !defined(IFF_PROMISC)
+#if   !defined(IFF_PROMISC)
   #define IFF_PROMISC     0x100     /* required by qeth.h            */
 #endif // !defined(HAVE_NET_IF_H)
 

@@ -348,7 +348,6 @@ extern inline int cmpxchg16_aarch64(U64 *old1, U64 *old2, U64 new1, U64 new2, vo
 /*-------------------------------------------------------------------
  * C11_ATOMICS_AVAILABLE
  *-------------------------------------------------------------------*/
-#if defined( C11_ATOMICS_AVAILABLE )
 
 #if defined( cmpxchg1 ) && !defined( C11_ATOMICS_ASSISTS_NOT_PREFERRED )
   #undef cmpxchg1
@@ -374,7 +373,6 @@ extern inline BYTE cmpxchg4_C11(U32 *old, U32 new, volatile void *ptr);
 extern inline BYTE cmpxchg8_C11(U64 *old, U64 new, volatile void *ptr);
 #endif /* cmpxchg8 */
 
-#endif /* defined( C11_ATOMICS_AVAILABLE ) */
 
 #endif // !defined( _MSVC_ )
 

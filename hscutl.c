@@ -95,33 +95,6 @@ DLL_EXPORT int herc_getopt_long(int ac,
 
 #endif /* NEED_GETOPT_WRAPPER */
 
-#if !defined(WIN32) && !defined(HAVE_STRERROR_R)
-static LOCK strerror_lock;
-DLL_EXPORT void strerror_r_init(void)
-{
-    initialize_lock(&strerror_lock);
-}
-DLL_EXPORT int strerror_r(int err,char *bfr,size_t sz)
-{
-    char *wbfr;
-    obtain_lock(&strerror_lock);
-    wbfr=strerror(err);
-    if(wbfr==NULL || (int)wbfr==-1)
-    {
-        release_lock(&strerror_lock);
-        return(-1);
-    }
-    if(sz<=strlen(wbfr))
-    {
-        errno=ERANGE;
-        release_lock(&strerror_lock);
-        return(-1);
-    }
-    strncpy(bfr,wbfr,sz);
-    release_lock(&strerror_lock);
-    return(0);
-}
-#endif // !defined(HAVE_STRERROR_R)
 
 #if !defined(HAVE_STRLCPY)
 /* $OpenBSD: strlcpy.c,v 1.8 2003/06/17 21:56:24 millert Exp $ */
@@ -848,7 +821,6 @@ int set_socket_keepalive( int sfd,
     l_tcp = tcpproto->p_proto;
 
     optval = 1;
-  #if defined( HAVE_DECL_SO_KEEPALIVE ) && HAVE_DECL_SO_KEEPALIVE
     tried++;
     rc = setsockopt(sfd, SOL_SOCKET, SO_KEEPALIVE, &optval, sizeof(optval));
     if (rc)
@@ -858,7 +830,6 @@ int set_socket_keepalive( int sfd,
     }
     else
         succeeded++;
-  #endif
 
     optval = idle_time;
   #if defined( HAVE_DECL_TCP_KEEPALIVE ) && HAVE_DECL_TCP_KEEPALIVE

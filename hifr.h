@@ -12,36 +12,6 @@
 // The 'ifreq' interface request structure
 //---------------------------------------------------------------------
 
-#if !defined(OPTION_W32_CTCI) && !defined(HAVE_LINUX_IF_TUN_H) && !defined(HAVE_NET_IF_H)
-
-  struct ifreq
-  {
-    union
-    {
-      char ifrn_name[IFNAMSIZ];         // (interface name)
-    }
-    ifr_ifrn;
-
-    union
-    {
-      struct sockaddr ifru_addr;        // (IP address)
-      struct sockaddr ifru_netmask;     // (network mask)
-      struct sockaddr ifru_hwaddr;      // (MAC address)
-      short int       ifru_flags;       // (flags)
-      int             ifru_mtu;         // (maximum transmission unit)
-    }
-    ifr_ifru;
-  };
-  typedef struct ifreq ifreq;
-
-  #define  ifr_name      ifr_ifrn.ifrn_name
-  #define  ifr_hwaddr    ifr_ifru.ifru_hwaddr
-  #define  ifr_addr      ifr_ifru.ifru_addr
-  #define  ifr_netmask   ifr_ifru.ifru_netmask
-  #define  ifr_flags     ifr_ifru.ifru_flags
-  #define  ifr_mtu       ifr_ifru.ifru_mtu
-
-#endif // !defined(OPTION_W32_CTCI) && !defined(HAVE_LINUX_IF_TUN_H) && !defined(HAVE_NET_IF_H)
 
 //---------------------------------------------------------------------
 // The 'in6_ifreq' IPv6 interface request structure

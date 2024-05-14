@@ -77,10 +77,6 @@
 
 /*-------------------------------------------------------------------*/
 
-#if !defined(_MSVC_) && !defined(HAVE_STRERROR_R)
-  HUT_DLL_IMPORT void strerror_r_init(void);
-  HUT_DLL_IMPORT int  strerror_r(int, char *, size_t);
-#endif
 
   HUT_DLL_IMPORT const char *get_symbol(const char *);
   HUT_DLL_IMPORT char *resolve_symbol_string(const char *);
@@ -89,15 +85,6 @@
   HUT_DLL_IMPORT void list_all_symbols();
 
 #ifdef _MSVC_
-  #ifndef HAVE_ID_T
-  #define HAVE_ID_T
-    typedef unsigned long id_t;
-  #endif
-  #ifndef HAVE_SYS_RESOURCE_H
-    #define  PRIO_PROCESS  0
-    #define  PRIO_PGRP     1
-    #define  PRIO_USER     2
-  #endif
 #endif // _MSVC_
 
 #if !defined(HAVE_STRLCPY)

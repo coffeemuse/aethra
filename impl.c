@@ -1263,9 +1263,6 @@ int     rc, maxprio, minprio;
     else
         WRMSG( HHC00018, "W", "NOT " );
 
-#if !defined(WIN32) && !defined(HAVE_STRERROR_R)
-    strerror_r_init();
-#endif
 
 #if defined(OPTION_SCSI_TAPE)
     initialize_lock      ( &sysblk.stape_lock         );
@@ -1511,7 +1508,6 @@ int     rc, maxprio, minprio;
     }
 #endif
 
-#if defined( HAVE_DECL_SIGPIPE ) && HAVE_DECL_SIGPIPE
     /* Ignore the SIGPIPE signal, otherwise Hercules may terminate with
        Broken Pipe error if the printer driver writes to a closed pipe */
     if (signal( SIGPIPE, SIG_IGN ) == SIG_ERR)
@@ -1519,7 +1515,6 @@ int     rc, maxprio, minprio;
         // "Cannot suppress SIGPIPE signal: %s"
         WRMSG( HHC01411, "E", strerror( errno ));
     }
-#endif
 
     {
         int fds[2];

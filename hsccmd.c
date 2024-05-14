@@ -431,16 +431,12 @@ int $test_cmd(int argc, char *argv[],char *cmdline)
 
             LOGMSG("*** $test command: test complete.\n");
         }
-#if defined( HAVE_SIGNAL_HANDLING )
-#if defined( HAVE_DECL_SIGBUS ) && HAVE_DECL_SIGBUS
         else if (CMD( argv[1], SIGBUS,  6 )) raise( SIGBUS  );
-#endif
         else if (CMD( argv[1], SIGFPE,  6 )) raise( SIGFPE  );
         else if (CMD( argv[1], SIGILL,  6 )) raise( SIGILL  );
         else if (CMD( argv[1], SIGSEGV, 7 )) raise( SIGSEGV );
         else if (CMD( argv[1], SIGUSR1, 7 )) raise( SIGUSR1 );
         else if (CMD( argv[1], SIGUSR2, 7 )) raise( SIGUSR2 );
-#endif
         else
         {
             // "%s%s"
@@ -3556,7 +3552,6 @@ BYTE c;
     return rc;
 }
 
-#if defined( HAVE_MLOCKALL )
 /*-------------------------------------------------------------------*/
 /* memlock - lock all hercules memory                                */
 /*-------------------------------------------------------------------*/
@@ -3599,7 +3594,6 @@ int memfree_cmd(int argc, char *argv[], char *cmdline)
 
     return 0;
 }
-#endif /* defined( HAVE_MLOCKALL ) */
 
 int qstor_cmd(int argc, char *argv[], char *cmdline);
 int mainsize_cmd(int argc, char *argv[], char *cmdline);

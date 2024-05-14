@@ -116,11 +116,9 @@ char    *strtok_str = NULL;             /* last position             */
             rmtnum = p + 1;
         }
 
-#if defined( HAVE_SYS_UN_H )
         if ( strcmp (ipname, "localhost") == 0)
             dev->localhost = 1;
         else
-#endif
         {
             if ( (he = gethostbyname (ipname)) == NULL )
                 return -1;
@@ -1100,9 +1098,7 @@ int                rc;                  /* Return code               */
 struct sockaddr*   server;              /* -> Server descriptor      */
 int                len;                 /* Length server descriptor  */
 struct sockaddr_in iserver;             /* inet server descriptor    */
-#if defined( HAVE_SYS_UN_H )
 struct sockaddr_un userver;             /* Unix server descriptor    */
-#endif
 int                retries = 10;        /* Number of retries         */
 HWORD              id;                  /* Returned identifier       */
 HWORD              comp;                /* Returned compression parm */
@@ -1118,11 +1114,7 @@ HWORD              comp;                /* Returned compression parm */
         /* Get a new socket */
         if (dev->localhost)
         {
-#if defined( HAVE_SYS_UN_H )
             dev->fd = socket( AF_UNIX, SOCK_STREAM, 0 );
-#else
-            dev->fd = -1;
-#endif
             dev->ckdfd[0] = dev->fd;
 
             if (dev->fd < 0)
@@ -1131,12 +1123,10 @@ HWORD              comp;                /* Returned compression parm */
                 WRMSG( HHC00720, "E", LCSS_DEVNUM, "socket()", strerror( HSO_errno ));
                 return -1;
             }
-#if defined( HAVE_SYS_UN_H )
             userver.sun_family = AF_UNIX;
             sprintf( userver.sun_path, "/tmp/hercules_shared.%d", dev->rmtport );
             server = (struct sockaddr*) &userver;
             len = sizeof( userver );
-#endif
         }
         else
         {
@@ -2837,9 +2827,7 @@ int                     rsock;          /* Ready socket              */
 int                     csock;          /* Socket for conversation   */
 int                    *psock;          /* Pointer to socket         */
 struct sockaddr_in      server;         /* Server address structure  */
-#if defined( HAVE_SYS_UN_H )
 struct sockaddr_un      userver;        /* Unix address structure    */
-#endif
 int                     optval;         /* Argument for setsockopt   */
 fd_set                  selset;         /* Read bit map for select   */
 TID                     tid;            /* Negotiation thread id     */
@@ -2863,15 +2851,11 @@ struct timeval          timeout = {0};
     }
 
     /* Obtain a unix socket */
-#if defined( HAVE_SYS_UN_H )
     if ((usock = socket( AF_UNIX, SOCK_STREAM, 0 )) < 0)
     {
         // "Shared: error in function %s: %s"
         WRMSG( HHC00735, "W", "socket()", strerror( HSO_errno ));
     }
-#else
-    usock = -1;
-#endif
 
     /* Allow previous instance of socket to be reused */
     optval = 1;
@@ -2904,7 +2888,6 @@ struct timeval          timeout = {0};
         return NULL;
     }
 
-#if defined( HAVE_SYS_UN_H )
     /* Bind the unix socket */
     if (usock >= 0)
     {
@@ -2923,7 +2906,6 @@ struct timeval          timeout = {0};
             usock = -1;
         }
     }
-#endif // defined( HAVE_SYS_UN_H )
 
     /* Put the sockets into listening state */
     rc = listen( lsock, SHARED_MAX_SYS );
@@ -3053,13 +3035,11 @@ struct timeval          timeout = {0};
     /* Close the listening sockets */
     close_socket( lsock );
 
-#if defined( HAVE_SYS_UN_H )
     if (usock >= 0)
     {
         close_socket( usock );
         unlink( userver.sun_path );
     }
-#endif
 
     /* Notify "shutdown_shared_server" that we've exited */
     OBTAIN_SHRDLOCK();

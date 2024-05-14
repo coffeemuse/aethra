@@ -1702,7 +1702,6 @@ static int bg_msgcolor( int sev ) { return msgcolor( sev, PANC_BG_IDX ); }
 
 static bool have_regexp = false;
 
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
 
 // PROGRAMMING NOTE: using a variable named "regex" conflicts with
 // <libgen.h> on Solaris, so we use variable name "regexp" instead.
@@ -1716,21 +1715,18 @@ static void init_HHC_regexp()
     have_regexp = (0 == regcomp( &regexp, "(HHC[0-9][0-9][0-9][0-9][0-9]\\S)", REG_EXTENDED ))
         ? true : false;
 }
-#endif // defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
 
 ///////////////////////////////////////////////////////////////////////
 // Return panel message severity code
 
 static int msg_sev( const char* msg )
 {
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
     if (have_regexp)
     {
         if (regexec( &regexp, msg, 1, &regmatch, 0 ) == 0)
             return (int)(msg[ regmatch.rm_so + 8 ]);
     }
     else
-#endif // defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
     {
         int sevidx = MLVL( DEBUG ) ? MLVL_DEBUG_PFXIDX + 8 : 8;
         if ((int)strlen( msg ) > sevidx)
@@ -1784,9 +1780,7 @@ size_t  loopcount;                      /* Number of iterations done */
     hdl_addshut( "panel_cleanup", panel_cleanup, NULL );
     history_init();
 
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
     init_HHC_regexp();
-#endif
 
     /* Set Some Function Key Defaults */
     {

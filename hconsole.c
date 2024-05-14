@@ -575,15 +575,12 @@ int w32_set_console_title( char* pszTitle )
 
 #else // !defined( WIN32 )
 
-#ifdef HAVE_TERMIOS_H
 static struct termios saved_kbattr;  // (saved value so we can later restore it)
-#endif
 
 // 'save_and_set' = 1 --> just what it says; 0 --> restore from saved value.
 
 int set_or_reset_console_mode( int keybrd_fd, short save_and_set )
 {
-#ifdef HAVE_TERMIOS_H
 struct termios kbattr;
 
     if ( save_and_set )
@@ -607,12 +604,6 @@ struct termios kbattr;
         tcsetattr( STDIN_FILENO, TCSANOW, &saved_kbattr );  // (restore prev value)
     }
 
-#else
-
-    UNREFERENCED( keybrd_fd );
-    UNREFERENCED( save_and_set );
-
-#endif
 
     return 0;
 }

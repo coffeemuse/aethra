@@ -974,8 +974,7 @@ U64     new64;                          /* New value (CSPG)          */
     }
 
 } /* end compare_and_swap_and_purge_instruction */
-#endif /* defined( FEATURE_BROADCASTED_PURGING )
-       || defined( FEATURE_003_DAT_ENHANCE_FACILITY_1 ) */
+#endif /* defined( FEATURE_BROADCASTED_PURGING ) || defined( FEATURE_003_DAT_ENHANCE_FACILITY_1 ) */
 
 
 #if defined( FEATURE_BROADCASTED_PURGING )

@@ -625,18 +625,10 @@ static const char *build_info[] = {
 #if defined(NO_IEEE_SUPPORT)
     "Without IEEE support",
 #else
-    #if defined(HAVE_SQRTL)
         "With    sqrtl support",
-    #else
-        "Without sqrtl support",
-    #endif
 #endif
 
-#if defined( HAVE_SIGNAL_HANDLING )
     "With    Signal handling",
-#else
-    "Without Signal handling",
-#endif
 
 #if defined( OPTION_WATCHDOG )
     "With    Watchdog monitoring",
@@ -662,11 +654,7 @@ static const char *build_info[] = {
     "Without ZLIB support",
 #endif
 
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
     "With    Regular Expressions support",
-#else
-    "Without Regular Expressions support",
-#endif
 
 #if defined(HAVE_OBJECT_REXX)
     "With    Object REXX support",

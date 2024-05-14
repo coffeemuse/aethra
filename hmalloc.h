@@ -167,7 +167,7 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
     #define    free_aligned(_ptr) \
               _aligned_free(_ptr)
 
-#elif defined(HAVE_POSIX_MEMALIGN)
+#else
 
     static INLINE void*
     malloc_aligned(size_t size, size_t alignment)
@@ -201,60 +201,7 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
     #define free_aligned(_ptr) \
             free(_ptr)
 
-#else /* !defined(HAVE_POSIX_MEMALIGN) */
-
-    static INLINE void*
-    __malloc_aligned_return (void* ptr, size_t alignment, size_t sizem1)
-    {
-        register char* result = ptr;
-
-        if (result != NULL)
-        {
-            result += (size_t) sizeof(void*);
-            result += alignment - ((size_t)result & sizem1);
-            ((void**)result)[-1] = ptr;
-        }
-
-        return (result);
-    }
-
-    static INLINE void*
-    malloc_aligned(size_t size, size_t alignment)
-    {
-        register void*  ptr;
-        register size_t sizem1 = alignment - 1;
-
-        if (!size)
-        {
-            return (NULL);
-        }
-
-        ptr = malloc(size + sizem1 + sizeof(void*));
-        return (__malloc_aligned_return(ptr, alignment, sizem1));
-    }
-
-    static INLINE void*
-    calloc_aligned(size_t size, size_t alignment)
-    {
-        register void*  ptr;
-        register size_t sizem1 = alignment - 1;
-
-        if (!size)
-        {
-            return (NULL);
-        }
-
-        ptr = calloc(1, size + sizem1 + sizeof(void*));
-        return (__malloc_aligned_return(ptr, alignment, sizem1));
-    }
-
-    static INLINE void
-    free_aligned(void* ptr)
-    {
-        free(((void**)ptr)[-1]);
-    }
-
-#endif /* malloc_aligned / calloc_aligned / free_aligned */
+#endif
 
 
 /*-------------------------------------------------------------------*/
@@ -346,13 +293,8 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
   #define      HPCALLOC(t,a)    PVALLOC(a)
   #define      HPCFREE(t,a)     PVFREE(a)
   #define      HPAGESIZE        getpagesize
-  #if defined(HAVE_MLOCK)
     #define    MLOCK            mlock
     #define    MUNLOCK          munlock
-  #else
-    #define    MLOCK(a,b)       0
-    #define    MUNLOCK(a,b)     0
-  #endif
 
 #else // defined( OPTION_CALLOC_GUESTMEM )
 
@@ -369,13 +311,8 @@ ALIGN_16 char   blkend[16];             /* eye-end                   */ \
 
     #define    HPAGESIZE        getpagesize
 
-    #if defined(HAVE_MLOCK)
       #define  MLOCK            mlock
       #define  MUNLOCK          munlock
-    #else
-      #define  MLOCK(a,b)       0
-      #define  MUNLOCK(a,b)     0
-    #endif
 
   #endif /* defined(_MSVC_) */
 

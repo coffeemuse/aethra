@@ -29,9 +29,7 @@ DLL_EXPORT HOST_INFO  hostinfo;     /* Host system information       */
 /*-------------------------------------------------------------------*/
 DLL_EXPORT void init_hostinfo ( HOST_INFO* pHostInfo )
 {
-#if defined( HAVE_SYS_UTSNAME_H )
     struct utsname uname_info;
-#endif
 
     if ( !pHostInfo ) pHostInfo = &hostinfo;
 
@@ -42,21 +40,12 @@ DLL_EXPORT void init_hostinfo ( HOST_INFO* pHostInfo )
 #if defined(_MSVC_)
     w32_init_hostinfo( pHostInfo );
 #else
-   #if defined( HAVE_SYS_UTSNAME_H )
     uname(        &uname_info );
     STRLCPY( pHostInfo->sysname,  uname_info.sysname  );
     STRLCPY( pHostInfo->nodename, uname_info.nodename );
     STRLCPY( pHostInfo->release,  uname_info.release  );
     STRLCPY( pHostInfo->version,  uname_info.version  );
     STRLCPY( pHostInfo->machine,  uname_info.machine  );
-   #else
-    STRLCPY( pHostInfo->sysname,  "(unknown)" );
-    STRLCPY( pHostInfo->nodename, "(unknown)" );
-    STRLCPY( pHostInfo->release,  "(unknown)" );
-    STRLCPY( pHostInfo->version,  "(unknown)" );
-    STRLCPY( pHostInfo->machine,  "(unknown)" );
-   #endif
-   #if defined(HAVE_SYSCONF)
       #if defined(HAVE_DECL__SC_NPROCESSORS_CONF) && \
                   HAVE_DECL__SC_NPROCESSORS_CONF
         pHostInfo->num_procs = sysconf(_SC_NPROCESSORS_CONF);
@@ -65,7 +54,6 @@ DLL_EXPORT void init_hostinfo ( HOST_INFO* pHostInfo )
                   HAVE_DECL__SC_PHYS_PAGES
         pHostInfo->ullTotalPhys = (RADR)((RADR)sysconf(_SC_PAGESIZE) * (RADR)sysconf(_SC_PHYS_PAGES));
       #endif
-   #endif
 #endif
 
 #if defined( __APPLE__ ) || defined( FREEBSD_OR_NETBSD )

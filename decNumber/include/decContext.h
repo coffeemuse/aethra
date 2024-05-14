@@ -44,31 +44,8 @@
   #ifdef HAVE_PLATFORM_H
     #include "platform.h"
   #else
-    #ifdef HAVE_STDBOOL_H
       #include <stdbool.h>
-    #else
-      /* minimum stdbool.h #defines needed by decNumber */
-      #define                       _Bool    int
-      #define bool                  _Bool
-      #define true                  1
-      #define false                 0
-      #define __bool_true_false_are_defined  1
-    #endif
-    #if defined( HAVE_INTTYPES_H )
       #include <inttypes.h>
-    #elif defined( HAVE_STDINT_H )
-      #include <stdint.h>
-    #else
-      /* minimum stdint.h typedefs needed by decNumber */
-      typedef unsigned char         uint8_t;
-      typedef          char          int8_t;
-      typedef unsigned short       uint16_t;
-      typedef          short        int16_t;
-      typedef unsigned int         uint32_t;
-      typedef          int          int32_t;
-      typedef unsigned long long   uint64_t;
-      typedef          long long    int64_t;
-    #endif
   #endif
 
   #include <stdio.h>               /* for printf, etc.                */

@@ -2165,10 +2165,8 @@ CMDABBR( "qpfkeys",         3,      qpfkeys_cmd,            SYSCMD,             
 COMMAND( "defsym",                  defsym_cmd,             SYSCMDNOPER,        defsym_cmd_desc,        defsym_cmd_help     )
 COMMAND( "delsym",                  delsym_cmd,             SYSCMDNOPER,        delsym_cmd_desc,        delsym_cmd_help     )
 
-#if defined(HAVE_MLOCKALL)
 COMMAND( "memlock",                 memlock_cmd,            SYSCONFIG,          NULL,                   NULL                )
 COMMAND( "memfree",                 memfree_cmd,            SYSCONFIG,          NULL,                   NULL                )
-#endif /*defined(HAVE_MLOCKALL)*/
 COMMAND( "modpath",                 modpath_cmd,            SYSCONFIG,          modpath_cmd_desc,       modpath_cmd_help    )
 COMMAND( "ldmod",                   ldmod_cmd,              SYSCMDNOPER,        ldmod_cmd_desc,         ldmod_cmd_help      )
 COMMAND( "lsdep",                   lsdep_cmd,              SYSCMDNOPER,        lsdep_cmd_desc,         NULL                )

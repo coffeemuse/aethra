@@ -20,57 +20,15 @@
 /*         Standard fixed size integer and boolean types             */
 /*-------------------------------------------------------------------*/
 
-#if defined( HAVE_INTTYPES_H )
   #include <inttypes.h>
-#elif defined( HAVE_STDINT_H )
-  #include <stdint.h>
-#else
-
-  typedef char                  int8_t;
-  typedef short                 int16_t;
-  typedef int                   int32_t;
-  typedef long long             int64_t;
-  typedef unsigned char         uint8_t;
-  typedef unsigned short        uint16_t;
-  typedef unsigned int          uint32_t;
-  typedef unsigned long long    uint64_t;
-  typedef char                  int_fast8_t;
-  typedef int                   int_fast16_t;
-  typedef int                   int_fast32_t;
-  typedef long long             int_fast64_t;
-  typedef unsigned char         uint_least8_t;
-  typedef unsigned char         uint_fast8_t;
-  typedef unsigned int          uint_fast16_t;
-  typedef unsigned int          uint_fast32_t;
-  typedef unsigned long long    uint_fast64_t;
-
-#endif
 
 #ifndef int32_t
 #define int32_t                 int32_t         /* (used by extpkgs) */
 #endif
 
-#ifndef HAVE_U_INT8_T
-  typedef uint8_t               u_int8_t;
-  typedef uint16_t              u_int16_t;
-  typedef uint32_t              u_int32_t;
-  typedef uint64_t              u_int64_t;
-#endif
 
 #ifndef   _BSDTYPES_DEFINED
   #define _BSDTYPES_DEFINED
-  #ifndef HAVE_U_CHAR
-    typedef unsigned char       u_char;
-  #endif
-  #ifndef HAVE_U_SHORT
-    typedef unsigned short      u_short;
-  #endif
-  #ifndef HAVE_U_INT
-    typedef unsigned int        u_int;
-  #endif
-  #ifndef HAVE_U_LONG
-    typedef unsigned long       u_long;
-  #endif
 #endif
 
 #ifdef _MSVC_
@@ -83,15 +41,7 @@
   #endif
 #endif
 
-#ifdef HAVE_STDBOOL_H
   #include <stdbool.h>
-#else
-  #define                       _Bool    int
-  #define bool                  _Bool
-  #define true                  1
-  #define false                 0
-  #define __bool_true_false_are_defined  1
-#endif
 
 /*-------------------------------------------------------------------*/
 /*              Hercules fixed size integer types                    */
@@ -133,17 +83,8 @@ typedef  uint8_t    QWORD[16];  // unsigned quadword   (16 bytes)
 /*                       Socket stuff                                */
 /*-------------------------------------------------------------------*/
 
-#ifndef HAVE_SOCKLEN_T
-  typedef  unsigned int     socklen_t;
-#endif
 
-#ifndef HAVE_IN_ADDR_T
-  typedef  unsigned int     in_addr_t;
-#endif
 
-#ifndef HAVE_USECONDS_T
-  typedef  unsigned int     useconds_t;
-#endif
 
 #if !defined( HAVE_STRUCT_IN_ADDR_S_ADDR ) && !defined( _WINSOCK_H )
   struct in_addr

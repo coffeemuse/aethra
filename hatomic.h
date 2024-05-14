@@ -113,7 +113,6 @@
 #define IAF2_SYNC_BUILTINS          4
 
 #if !defined( DISABLE_IAF2 )
-  #if defined( C11_ATOMICS_AVAILABLE )
     #include <stdatomic.h>
     #if C11_ATOMIC_CHAR_LOCK_FREE == ALWAYS_ATOMIC
       #define CAN_IAF2      IAF2_C11_STANDARD_ATOMICS
@@ -128,17 +127,6 @@
         #define CAN_IAF2    IAF2_ATOMICS_UNAVAILABLE
       #endif
     #endif
-  #else  /* !C11_ATOMICS_AVAILABLE */
-    #if defined( _MSVC_ )
-      #define CAN_IAF2      IAF2_MICROSOFT_INTRINSICS
-    #elif defined( HAVE_ATOMIC_INTRINSICS )
-      #define CAN_IAF2      IAF2_ATOMIC_INTRINSICS
-    #elif defined( HAVE_SYNC_BUILTINS )
-      #define CAN_IAF2      IAF2_SYNC_BUILTINS
-    #else
-      #define CAN_IAF2      IAF2_ATOMICS_UNAVAILABLE
-    #endif
-  #endif
 #else /* defined( DISABLE_IAF2 ) */
   #define CAN_IAF2          IAF2_ATOMICS_UNAVAILABLE
 #endif

@@ -14,14 +14,6 @@
 /* On Solaris 2.9 (SunOS 5.9) and earlier, there is no scandir
    and alphasort function. In this case fillfnam does nothing
    and the tab command is effectively a no-operation */
-#if !(defined(HAVE_SCANDIR) && defined(HAVE_ALPHASORT)) && !defined(_MSVC_)
-int tab_pressed(char *cmdlinefull, size_t cmdlinelen, int *cmdoffset) {
-  UNREFERENCED(cmdlinefull);
-  UNREFERENCED(cmdoffset);
-  UNREFERENCED(cmdlinelen);
-  return 0;
-}
-#else
 
 char *filterarray;
 
@@ -228,4 +220,3 @@ int tab_pressed(char *cmdlinefull, size_t cmdlinelen, int *cmdoffset) {
   free(path);
   return(0);
 }
-#endif /*(HAVE_SCANDIR && HAVE_ALPHASORT) || _MSVC_*/

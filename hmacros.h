@@ -245,11 +245,7 @@ typedef char _CASSERT_PASTE( assertion_failed_ ## file, line )[ 2 * !!(cond) - 1
   #define  atoll                _atoi64
 #else /* !_MSVC_ */
   #if !defined(HAVE_FDATASYNC_SUPPORTED)
-    #ifdef HAVE_FSYNC
       #define  fdatasync        fsync
-    #else
-      #error Required 'fdatasync' function is missing and alternate 'fsync' function also missing
-    #endif
   #endif
   #define  atoll(s)             strtoll(s,NULL,0)
 #endif
@@ -324,14 +320,8 @@ typedef char _CASSERT_PASTE( assertion_failed_ ## file, line )[ 2 * !!(cond) - 1
   #define  stat                 _stati64
 #elif defined(_LFS_LARGEFILE) || ( defined(SIZEOF_OFF_T) && SIZEOF_OFF_T > 4 )
   /* Native 64-bit Large File Support */
-  #if defined(HAVE_FSEEKO)
     #define  ftell              ftello
     #define  fseek              fseeko
-  #else
-    #if defined(SIZEOF_LONG) && SIZEOF_LONG <= 4
-      WARNING( "fseek/ftell use offset arguments of insufficient size" )
-    #endif
-  #endif
 #elif defined(_LFS64_LARGEFILE)
   /* Transitional 64-bit Large File Support */
   #define    off_t              off64_t

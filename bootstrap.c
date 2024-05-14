@@ -36,7 +36,6 @@ static void restore_term_attrs()
     tcsetattr( STDERR_FILENO, TCSANOW, &stderr_attrs );
 }
 
-#if defined( HAVE_SIGNAL_HANDLING )
 
 int crash_signo = -1;                   // Saved signal number of crash
 
@@ -44,9 +43,7 @@ struct sigaction  sa_CRASH    = {0};    // (for catching exceptions)
 struct sigaction  sa_SIGFPE   = {0};    // (original SIGFPE  action)
 struct sigaction  sa_SIGILL   = {0};    // (original SIGILL  action)
 struct sigaction  sa_SIGSEGV  = {0};    // (original SIGSEGV action)
-#if defined( HAVE_DECL_SIGBUS ) && HAVE_DECL_SIGBUS
 struct sigaction  sa_SIGBUS   = {0};    // (original SIGBUS  action)
-#endif
 
 static void crash_signal_handler( int signo );
 
@@ -57,9 +54,7 @@ static void install_crash_handler()
     sigaction( SIGFPE,  &sa_CRASH, &sa_SIGFPE  );
     sigaction( SIGILL,  &sa_CRASH, &sa_SIGILL  );
     sigaction( SIGSEGV, &sa_CRASH, &sa_SIGSEGV );
-#if defined( HAVE_DECL_SIGBUS ) && HAVE_DECL_SIGBUS
     sigaction( SIGBUS,  &sa_CRASH, &sa_SIGBUS  );
-#endif
 }
 
 static void uninstall_crash_handler()
@@ -68,9 +63,7 @@ static void uninstall_crash_handler()
     sigaction( SIGFPE,  &sa_SIGFPE,  0 );
     sigaction( SIGILL,  &sa_SIGILL,  0 );
     sigaction( SIGSEGV, &sa_SIGSEGV, 0 );
-#if defined( HAVE_DECL_SIGBUS ) && HAVE_DECL_SIGBUS
     sigaction( SIGBUS,  &sa_SIGBUS,  0 );
-#endif
 }
 
 static void log_crashed_msg( FILE* stream )
@@ -114,7 +107,6 @@ static void crash_signal_handler( int signo )
     log_crashed_msg( stderr );
     log_crashed_msg( stdout );
 }
-#endif /* defined( HAVE_SIGNAL_HANDLING ) */
 
 /*-------------------------------------------------------------------*/
 /*                                                                   */
@@ -135,9 +127,7 @@ int main( int ac, char* av[] )
 #if defined( HDL_USE_LIBTOOL )
     LTDL_SET_PRELOADED_SYMBOLS();
 #endif
-#if defined( HAVE_SIGNAL_HANDLING )
     install_crash_handler();
-#endif
     rc = impl( ac, av );
     restore_term_attrs();
     return rc;

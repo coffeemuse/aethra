@@ -5955,8 +5955,7 @@ DEF_INST( insert_reference_bits_multiple )
     ARCH_DEP( RRBM_or_IRBM_instruction )( inst, regs, false );
 }
 #endif
-#endif /* defined( FEATURE_066_RES_REF_BITS_MULT_FACILITY
-       || defined( FEATURE_145_INS_REF_BITS_MULT_FACILITY) */
+#endif /* defined( FEATURE_066_RES_REF_BITS_MULT_FACILITY || defined( FEATURE_145_INS_REF_BITS_MULT_FACILITY) */
 
 
 #if defined( FEATURE_008_ENHANCED_DAT_FACILITY_1 )

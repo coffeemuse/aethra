@@ -938,12 +938,10 @@ int        tzdiff;                      /* Time zone differential    */
 U32        idaddr;                      /* Address of storage operand*/
 U32        idlen;                       /* Length of storage operand */
 BYTE       buf[40];                     /* Extended identification   */
-#if defined( HAVE_GETLOGIN_R )
   #if !defined(LOGIN_NAME_MAX)
     #define LOGIN_NAME_MAX 100
   #endif
 char       unam[LOGIN_NAME_MAX+1];      /* User name                 */
-#endif
 char      *puser;                       /* Pointer to user name      */
 BYTE       c;                           /* Character work area       */
 
@@ -988,13 +986,9 @@ BYTE       c;                           /* Character work area       */
     buf[15] = regs->cpuad & 0xFF;
 
     /* Bytes 16-23 contain the userid in EBCDIC */
-#if defined( HAVE_GETLOGIN_R )
     memset( unam, 0, sizeof(unam) );
     VERIFY( getlogin_r ( unam, sizeof(unam) ) == 0 );
     puser = unam;
-#else
-    puser = "";
-#endif
     for (i = 0; i < 8; i++)
     {
         c = (*puser == '\0' ? SPACE : *(puser++));

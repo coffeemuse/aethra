@@ -139,32 +139,16 @@
    On Darwin, <sys/socket.h> must be included before <net/if.h> and
    on older Darwin systems, before <net/route.h> and <netinet/in.h>.
 */
-#ifdef HAVE_SYS_SOCKET_H
   #include <sys/socket.h>
-#endif
-#ifdef HAVE_ARPA_INET_H
   #include <arpa/inet.h>
-#endif
 #ifdef HAVE_LINUX_IF_TUN_H
   #include <linux/if_tun.h>
 #endif
-#ifdef HAVE_NET_ROUTE_H
   #include <net/route.h>
-#endif
-#ifdef HAVE_NET_IF_H
   #include <net/if.h>
-#endif
-#ifdef HAVE_NETINET_IN_H
   #include <netinet/in.h>
-#endif
-#if defined( HAVE_NETINET_TCP_H )
   #include <netinet/tcp.h>
-#elif defined( HAVE_NET_TCP_H )
-  #include <net/tcp.h>
-#endif
-#ifdef HAVE_SYS_IOCTL_H
   #include <sys/ioctl.h>
-#endif
 #ifdef HAVE_SYS_PARAM_H
   #include <sys/param.h>
 #endif
@@ -174,21 +158,11 @@
 #ifdef HAVE_SYS_MTIO_H
   #include <sys/mtio.h>
 #endif
-#ifdef HAVE_SYS_RESOURCE_H
   #include <sys/resource.h>
-#endif
-#ifdef HAVE_SYS_UN_H
   #include <sys/un.h>
-#endif
-#ifdef HAVE_SYS_UIO_H
   #include <sys/uio.h>
-#endif
-#ifdef HAVE_SYS_UTSNAME_H
   #include <sys/utsname.h>
-#endif
-#ifdef HAVE_SYS_WAIT_H
   #include <sys/wait.h>
-#endif
 #ifdef HAVE_BYTESWAP_H
  #ifndef NO_ASM_BYTESWAP
   #include <byteswap.h>
@@ -209,41 +183,22 @@
     #define HET_BZIP2
   #endif
 #endif
-#ifdef HAVE_DIRENT_H
   #include <dirent.h>
-#endif
 #if defined(__MINGW__) || defined(_MSVC_)
   #include "w32dl.h"
 #else
   #include <dlfcn.h>
 #endif
-#ifdef HAVE_FENV_H
   #include <fenv.h>
-#endif
-#ifdef HAVE_MALLOC_H
-  #include <malloc.h>
-#endif
 #if defined(HAVE_MATH_H) && !defined(_MSVC_)
   #include <math.h>
 #endif
-#ifdef HAVE_NETDB_H
   #include <netdb.h>
-#endif
-#ifdef HAVE_PWD_H
   #include <pwd.h>
-#endif
-#ifdef HAVE_REGEX_H
   #include <regex.h>
-#endif
-#ifdef HAVE_SIGNAL_H
   #include <signal.h>
-#endif
-#ifdef HAVE_TIME_H
   #include <time.h>
-#endif
-#ifdef HAVE_TERMIOS_H
   #include <termios.h>
-#endif
 #ifdef HAVE_ZLIB_H
   #include <zlib.h>
 #endif
@@ -279,15 +234,9 @@
   #include <unistd.h>           // Unix standard definitions
 #endif
 
-#ifdef HAVE_ASSERT_H            // (must follow "hercwind.h")
   #include <assert.h>
-#endif
 
-#ifdef C99_FLEXIBLE_ARRAYS      // (must follow "hercwind.h")
   #define FLEXIBLE_ARRAY        // ("DEVBLK *memdev[];" syntax is supported)
-#else
-  #define FLEXIBLE_ARRAY 0      // ("DEVBLK *memdev[0];" must be used instead)
-#endif
 
 #if defined( HAVE_ATTR_REGPARM )// (must follow "hercwind.h")
   #ifdef _MSVC_

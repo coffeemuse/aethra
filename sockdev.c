@@ -73,12 +73,6 @@ static void term_sockdev( void* arg )
 
 int unix_socket( char* path )
 {
-#if !defined( HAVE_SYS_UN_H )
-    UNREFERENCED( path );
-    // "COMM: this hercules build does not support unix domain sockets"
-    WRMSG( HHC01032, "E" );
-    return -1;
-#else
 
     struct sockaddr_un addr;
     int sd;
@@ -117,7 +111,6 @@ int unix_socket( char* path )
 
     return sd;
 
-#endif // defined( HAVE_SYS_UN_H )
 }
 
 

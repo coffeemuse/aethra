@@ -998,17 +998,14 @@ struct  tape_format_entry   fmttab   [] =   /*    (table itself)     */
 /*-------------------------------------------------------------------*/
 int gettapetype_byname (DEVBLK *dev)
 {
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
     regex_t     regwrk;                 /* REGEXP work area          */
     regmatch_t  regwrk2;                /* REGEXP match area         */
     char        errbfr[1024];           /* Working storage           */
     int         i;                      /* Loop control              */
-#endif // HAVE_REGEX_H
     int         rc;                     /* various rtns return codes */
 
     /* Use the file name to determine the device type */
 
-#if defined(HAVE_REGEX_H) || defined(HAVE_PCRE)
 
     for (i=0; i < (int) _countof( fmttab ); i++)
     {
@@ -1039,64 +1036,6 @@ int gettapetype_byname (DEVBLK *dev)
         ASSERT( rc == REG_NOMATCH );
     }
 
-#else // !HAVE_REGEX_H
-
-    if (1
-        && (rc = strlen(dev->filename)) > 4
-        && (rc = strcasecmp( &dev->filename[rc-4], ".aws" )) == 0
-    )
-    {
-        return AWSTAPE_FMTENTRY;
-    }
-
-    if (1
-        && (rc = strlen(dev->filename)) > 4
-        && (rc = strcasecmp( &dev->filename[rc-4], ".het" )) == 0
-    )
-    {
-        return HETTAPE_FMTENTRY;
-    }
-
-    if (1
-        && (rc = strlen(dev->filename)) > 4
-        && (rc = strcasecmp( &dev->filename[rc-4], ".tdf" )) == 0
-    )
-    {
-        return OMATAPE_FMTENTRY;
-    }
-
-    if (1
-        && (rc = strlen(dev->filename)) > 4
-        && (rc = strcasecmp( &dev->filename[rc-4], ".fkt" )) == 0
-    )
-    {
-        return FAKETAPE_FMTENTRY;
-    }
-
-#if defined(OPTION_SCSI_TAPE)
-    if (1
-        && (rc = strlen(dev->filename)) > 5
-        && (rc = strncasecmp( dev->filename, "/dev/", 5 )) == 0
-    )
-    {
-        if (strncasecmp( dev->filename+5, "st", 2 ) == 0)
-            dev->stape_close_rewinds = 1; // (rewind at close)
-        else
-            dev->stape_close_rewinds = 0; // (otherwise don't)
-
-        return SCSITAPE_FMTENTRY;
-    }
-#if defined(_MSVC_)
-    if (1
-        && strncasecmp(dev->filename, "\\\\.\\", 4) == 0
-        &&           *(dev->filename        +    4) != 0
-    )
-    {
-        return SCSITAPE_FMTENTRY;
-    }
-#endif // _MSVC_
-#endif // OPTION_SCSI_TAPE
-#endif // HAVE_REGEX_H
 
     return -1;      /* -1 == "unable to determine" */
 
