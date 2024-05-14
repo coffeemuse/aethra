@@ -600,48 +600,7 @@ typedef int CMPFUNC(const void*, const void*);
     #define DROP_ALL_CAPS()             // (do nothing)
     #define SETMODE(_func)              _SETMODE_ ## _func
 
-    #if defined( HAVE_SETRESUID )
-
-      #define _SETMODE_INIT                                                         \
-                                                                                    \
-          do                                                                        \
-          {                                                                         \
-              VERIFY( getresuid( &sysblk.ruid, &sysblk.euid, &sysblk.suid ) == 0 ); \
-              VERIFY( getresgid( &sysblk.rgid, &sysblk.egid, &sysblk.sgid ) == 0 ); \
-              VERIFY( setresgid(  sysblk.rgid,  sysblk.rgid,  sysblk.egid ) == 0 ); \
-              VERIFY( setresuid(  sysblk.ruid,  sysblk.ruid,  sysblk.euid ) == 0 ); \
-          }                                                                         \
-          while(0)
-
-
-      #define _SETMODE_ROOT                                                         \
-                                                                                    \
-          do                                                                        \
-          {                                                                         \
-              VERIFY(!setresuid(sysblk.suid,sysblk.suid,sysblk.ruid));              \
-          }                                                                         \
-          while(0)
-
-
-      #define _SETMODE_USER                                                         \
-                                                                                    \
-          do                                                                        \
-          {                                                                         \
-              VERIFY( setresuid( sysblk.ruid, sysblk.ruid, sysblk.suid ) == 0 );    \
-          }                                                                         \
-          while(0)
-
-
-      #define _SETMODE_TERM                                                         \
-                                                                                    \
-          do                                                                        \
-          {                                                                         \
-              VERIFY( setresgid( sysblk.rgid, sysblk.rgid, sysblk.rgid ) == 0 );    \
-              VERIFY( setresuid( sysblk.ruid, sysblk.ruid, sysblk.ruid ) == 0 );    \
-          }                                                                         \
-          while(0)
-
-    #elif defined( HAVE_SETREUID )
+    #if defined( HAVE_SETREUID )
 
       #define _SETMODE_INIT                                         \
                                                                     \
@@ -687,11 +646,11 @@ typedef int CMPFUNC(const void*, const void*);
           }                                                         \
           while(0)
 
-    #else // !defined( HAVE_SETRESUID ) && !defined( HAVE_SETEREUID )
+    #else // !defined( HAVE_SETEREUID )
 
       #error Cannot figure out how to swap effective UID/GID! Maybe you should #define NO_SETUID?
 
-    #endif // defined( HAVE_SETREUID ) || defined( HAVE_SETRESUID )
+    #endif // defined( HAVE_SETREUID )
 
   #endif // defined( HAVE_SYS_CAPABILITY_H ) && defined( HAVE_SYS_PRCTL_H ) && defined( OPTION_CAPABILITIES )
 
