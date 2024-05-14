@@ -1336,7 +1336,6 @@ const char* trcmsg;                     /* Header trace message      */
             buflen = 0;
         }
     }
-#endif
 
     /* Combine header and data unless there's no buffer */
     if (buflen == 0)
