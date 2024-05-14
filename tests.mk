@@ -8,7 +8,6 @@
 # CHECK_HAVE(sys/param.h)
 # CHECK_DECL(sys.mtio.h, MTEWARN)
 # CHECK_SIZEOF(long)
-# CHECK_HAVE(_GNU_SOURCE, unistd.h, setresuid)
 # CHECK_SIZEOF(pthread.h, pthread_t)
 # CHECK_HAVE(byteswap.h)
 # CHECK_HAVE(linux/if/tun.h)
