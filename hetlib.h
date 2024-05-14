@@ -79,11 +79,7 @@ typedef struct _hetb
 || Limits
 */
 #define HETMIN_METHOD           1       /* Minimum compression method       */
-#if defined( HET_BZIP2 )
 #define HETMAX_METHOD           2       /* Maximum compression method       */
-#else
-#define HETMAX_METHOD           1       /* Maximum compression method       */
-#endif /* defined( HET_BZIP2 ) */
 #define HETMIN_LEVEL            1       /* Minimum compression level        */
 #define HETMAX_LEVEL            9       /* Maximum compression level        */
 #define HETMIN_CHUNKSIZE        4096    /* Minimum chunksize                */

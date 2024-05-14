@@ -1015,16 +1015,8 @@ BYTE            buf[4*65536];           /* buffer                    */
     /* Build table for compression byte test */
     memset (compmask, 0xff, 256);
     compmask[0] = 0;
-#if defined( HAVE_ZLIB )
     compmask[CCKD_COMPRESS_ZLIB] = 0;
-#else
-    compmask[CCKD_COMPRESS_ZLIB] = 1;
-#endif
-#if defined( CCKD_BZIP2 )
     compmask[CCKD_COMPRESS_BZIP2] = 0;
-#else
-    compmask[CCKD_COMPRESS_BZIP2] = 2;
-#endif
 
     /*---------------------------------------------------------------
      * Header checks

@@ -1086,16 +1086,8 @@ BYTE            buf[4*65536];           /* buffer                    */
     /* Build table for compression byte test */
     memset (compmask, 0xff, 256);
     compmask[0] = 0;
-#if defined( HAVE_ZLIB )
     compmask[CCKD_COMPRESS_ZLIB] = 0;
-#else
-    compmask[CCKD_COMPRESS_ZLIB] = 1;
-#endif
-#if defined( CCKD_BZIP2 )
     compmask[CCKD_COMPRESS_BZIP2] = 0;
-#else
-    compmask[CCKD_COMPRESS_BZIP2] = 2;
-#endif
 
     /*---------------------------------------------------------------
      * Header checks
@@ -2919,16 +2911,10 @@ int             len2;                   /* Positive 'len'            */
 BYTE           *bufp;                   /* Buffer pointer            */
 BYTE            cmp;                    /* Compression indicator     */
 int             bufl;                   /* Buffer length             */
-#if defined( HAVE_ZLIB )
 uLongf          zlen;
-#endif
-#if defined( CCKD_BZIP2 )
 unsigned int    bz2len;
-#endif
-#if defined( HAVE_ZLIB ) || defined( CCKD_BZIP2 )
 int             rc;                     /* Return code               */
 BYTE            buf2[64*1024];          /* Uncompressed buffer       */
-#endif
 
     /* Negative len only allowed for comp none */
     len2 = len > 0 ? len : -len;
@@ -2948,7 +2934,6 @@ BYTE            buf2[64*1024];          /* Uncompressed buffer       */
         bufl = len2;
         break;
 
-#if defined( HAVE_ZLIB )
     case CCKD_COMPRESS_ZLIB:
         if (len < 0) return 0;
         bufp = (BYTE*) buf2;
@@ -2959,9 +2944,7 @@ BYTE            buf2[64*1024];          /* Uncompressed buffer       */
                          len  - CKD_TRKHDR_SIZE ); if (rc != Z_OK) return 0;
         bufl =     (int) zlen + CKD_TRKHDR_SIZE;
         break;
-#endif
 
-#if defined( CCKD_BZIP2 )
     case CCKD_COMPRESS_BZIP2:
         if (len < 0) return 0;
         bufp = (BYTE*) buf2;
@@ -2972,7 +2955,6 @@ BYTE            buf2[64*1024];          /* Uncompressed buffer       */
                                                   len -   CKD_TRKHDR_SIZE, 0, 0 ); if (rc != BZ_OK) return 0;
         bufl =                           (int) bz2len +   CKD_TRKHDR_SIZE;
         break;
-#endif
 
     default:
         return 0; // (error: unsupported compression algorithm!)

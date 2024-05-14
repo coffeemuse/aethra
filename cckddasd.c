@@ -95,12 +95,8 @@ int cckd_dasd_init( int argc, BYTE* argv[] )
     cckdblk.readaheads = CCKD_DEF_READAHEADS;
     cckdblk.freepend   = CCKD_DEF_FREEPEND;
 
-#if defined( HAVE_ZLIB )
     cckdblk.comps     |= CCKD_COMPRESS_ZLIB;
-#endif
-#if defined( CCKD_BZIP2 )
     cckdblk.comps     |= CCKD_COMPRESS_BZIP2;
-#endif
     cckdblk.comp       = 0xff;
     cckdblk.compparm   = -1;
 
@@ -5912,7 +5908,6 @@ BYTE            comp;                     /* Compression type        */
 /*-------------------------------------------------------------------*/
 int cckd_uncompress_zlib (DEVBLK *dev, BYTE *to, BYTE *from, int len, int maxlen)
 {
-#if defined( HAVE_ZLIB )
 unsigned long newlen;
 int rc;
 
@@ -5932,14 +5927,6 @@ int rc;
     CCKD_TRACE( "uncompress zlib newlen %d rc %d",(int)newlen,rc);
 
     return (int)newlen;
-#else
-    UNREFERENCED(dev);
-    UNREFERENCED(to);
-    UNREFERENCED(from);
-    UNREFERENCED(len);
-    UNREFERENCED(maxlen);
-    return -1;
-#endif
 }
 
 /*-------------------------------------------------------------------*/
@@ -5947,7 +5934,6 @@ int rc;
 /*-------------------------------------------------------------------*/
 int cckd_uncompress_bzip2 (DEVBLK *dev, BYTE *to, BYTE *from, int len, int maxlen)
 {
-#if defined( CCKD_BZIP2 )
 unsigned int newlen;
 int rc;
 
@@ -5969,14 +5955,6 @@ int rc;
     CCKD_TRACE( "uncompress bz2 newlen %d rc %d",newlen,rc);
 
     return (int)newlen;
-#else
-    UNREFERENCED(dev);
-    UNREFERENCED(to);
-    UNREFERENCED(from);
-    UNREFERENCED(len);
-    UNREFERENCED(maxlen);
-    return -1;
-#endif
 }
 
 /*-------------------------------------------------------------------*/
@@ -6021,7 +5999,6 @@ int cckd_compress_none (DEVBLK *dev, BYTE **to, BYTE *from, int len, int parm)
 /*-------------------------------------------------------------------*/
 int cckd_compress_zlib (DEVBLK *dev, BYTE **to, BYTE *from, int len, int parm)
 {
-#if defined( HAVE_ZLIB )
 unsigned long newlen;
 int rc;
 BYTE *buf;
@@ -6042,19 +6019,10 @@ BYTE *buf;
         newlen = len;
     }
     return (int)newlen;
-#else
-
-#if defined( CCKD_BZIP2 )
-    return cckd_compress_bzip2 (dev, to, from, len, parm);
-#else
-    return cckd_compress_none (dev, to, from, len, parm);
-#endif
-
-#endif
 }
+
 int cckd_compress_bzip2 (DEVBLK *dev, BYTE **to, BYTE *from, int len, int parm)
 {
-#if defined( CCKD_BZIP2 )
 unsigned int newlen;
 int rc;
 BYTE *buf;
@@ -6076,9 +6044,6 @@ BYTE *buf;
         newlen = len;
     }
     return newlen;
-#else
-    return cckd_compress_zlib (dev, to, from, len, parm);
-#endif
 }
 
 /*-------------------------------------------------------------------*/

@@ -464,7 +464,6 @@
   #define SR_STRING_ERROR   do { sr_string_error_(); return -1; } while (0)
 #endif
 
-#if defined( HAVE_ZLIB )
 #define SR_DEFAULT_FILENAME "hercules.srf.gz"
 #define SR_FILE gzFile
 #define SR_OPEN(_path, _mode) \
@@ -477,20 +476,6 @@
  gzseek((gzFile)(_stream), (_offset), (_whence))
 #define SR_CLOSE(_stream) \
  gzclose((gzFile)(_stream))
-#else
-#define SR_DEFAULT_FILENAME "hercules.srf"
-#define SR_FILE FILE *
-#define SR_OPEN(_path, _mode) \
- fopen((_path), (_mode))
-#define SR_READ(_ptr, _size, _nmemb, _stream) \
- fread((_ptr), (_size), (_nmemb), (_stream))
-#define SR_WRITE(_ptr, _size, _nmemb, _stream) \
- fwrite((_ptr), (_size), (_nmemb), (_stream))
-#define SR_SEEK(_stream, _offset, _whence) \
- fseek((_stream), (_offset), (_whence))
-#define SR_CLOSE(_stream) \
- fclose((_stream))
-#endif
 
 static INLINE int sr_write_hdr    (FILE* file, U32  key,               U32  len);
 static INLINE int sr_write_value  (FILE* file, U32  key,    U64   val, U32  len);

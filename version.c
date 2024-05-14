@@ -636,23 +636,11 @@ static const char *build_info[] = {
     "Without Watchdog monitoring",
 #endif
 
-#if defined( CCKD_BZIP2 )
     "With    CCKD BZIP2 support",
-#else
-    "Without CCKD BZIP2 support",
-#endif
 
-#if defined(HET_BZIP2)
     "With    HET BZIP2 support",
-#else
-    "Without HET BZIP2 support",
-#endif
 
-#if defined( HAVE_ZLIB )
     "With    ZLIB support",
-#else
-    "Without ZLIB support",
-#endif
 
     "With    Regular Expressions support",
 
@@ -667,7 +655,7 @@ static const char *build_info[] = {
     "Without Regina REXX support",
 #endif
 
-#if defined(ENABLE_HAO)
+#if defined(_HAO)
     "With    Automatic Operator support",
 #else
     "Without Automatic Operator support",

@@ -1818,15 +1818,7 @@ char            serial[ sizeof_member( CKD_DEVHDR, dh_serial ) + 1 ] = {0};
         {
             char    msgbuf[128];
 
-#if defined( HAVE_ZLIB ) && defined( CCKD_BZIP2 )
             char   *pszcomp     = " or zlib/bzip2 compression";
-#elif defined( HAVE_ZLIB )
-            char   *pszcomp     = " or zlib compression";
-#elif defined( CCKD_BZIP2 )
-            char   *pszcomp     = " or bzip2 compression";
-#else
-            char   *pszcomp     = "";
-#endif
             char   *pszopt;
 
             FWRMSG( stderr, HHC00466, "W", maxcyls, "cylinders", CKD_MAXFILES );
@@ -2110,9 +2102,7 @@ int create_compressed_fba( char* fname, U16 devtype, U32 sectsz,
     CCKD_L1ENT*      l1;                /* Level 1 table pointer     */
     CCKD_L2ENT       l2[256];           /* Level 2 table             */
     unsigned long    len2;              /* Compressed buffer length  */
-#if defined( HAVE_ZLIB )
     BYTE             buf2[256];         /* Compressed buffer         */
-#endif
     BYTE             buf[65536];        /* Buffer                    */
     int              x = O_EXCL;        /* Open option               */
     char             pathname[MAX_PATH];/* file path in host format  */
@@ -2258,7 +2248,6 @@ int create_compressed_fba( char* fname, U16 devtype, U32 sectsz,
     }
 
     /* Write the 1st block group */
-#if defined( HAVE_ZLIB )
     len2 = sizeof( buf2 );
     if (1
         && CCKD_COMPRESS_ZLIB == (comp & CCKD_COMPRESS_MASK)
@@ -2292,7 +2281,6 @@ int create_compressed_fba( char* fname, U16 devtype, U32 sectsz,
         }
     }
     else
-#endif // defined( HAVE_ZLIB )
     {
         len2 = CFBA_BLKGRP_SIZE;
         blkghdr->cmp = CCKD_COMPRESS_NONE;

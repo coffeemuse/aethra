@@ -174,7 +174,6 @@ char    *strtok_str = NULL;             /* last position             */
                 cu = op;
                 continue;
             }
-#if defined( HAVE_ZLIB )
             if (strlen (argv[i]) > 5
              && memcmp("comp=", argv[i], 5) == 0)
             {
@@ -185,7 +184,6 @@ char    *strtok_str = NULL;             /* last position             */
                     dev->rmtcomp = 0;
                 continue;
             }
-#endif
             // "Shared: parameter %s in argument %d is invalid"
             WRMSG( HHC00700, "S", argv[i], i + 1 );
             return -1;
@@ -194,12 +192,8 @@ char    *strtok_str = NULL;             /* last position             */
 
     /* Set suported compression */
     dev->rmtcomps = 0;
-#if defined( HAVE_ZLIB )
     dev->rmtcomps |= SHRD_LIBZ;
-#endif
-#if defined( CCKD_BZIP2 )
     dev->rmtcomps |= SHRD_BZIP2;
-#endif
 
     /* Update the device handler vector */
     dev->hnd = &shared_ckd_device_hndinfo;
@@ -393,9 +387,7 @@ FWORD    origin;                        /* FBA origin                */
 FWORD    numblks;                       /* FBA number blocks         */
 FWORD    blksiz;                        /* FBA block size            */
 char    *p, buf[1024];                  /* Work buffer               */
-#if defined( HAVE_ZLIB )
 char    *strtok_str = NULL;             /* last token                */
-#endif
 
     /* Process the arguments */
     if (!(retry = dev->connecting))
@@ -448,7 +440,6 @@ char    *strtok_str = NULL;             /* last token                */
         rc = 0;
         for (i = 1; i < argc; i++)
         {
-#if defined( HAVE_ZLIB )
             if (strlen (argv[i]) > 5
              && memcmp("comp=", argv[i], 5) == 0)
             {
@@ -459,7 +450,6 @@ char    *strtok_str = NULL;             /* last token                */
                     dev->rmtcomp = 0;
                 continue;
             }
-#endif
             // "Shared: parameter %s in argument %d is invalid"
             WRMSG( HHC00700, "S", argv[i], i + 1 );
             rc = -1;
@@ -470,12 +460,8 @@ char    *strtok_str = NULL;             /* last token                */
 
     /* Set suported compression */
     dev->rmtcomps = 0;
-#if defined( HAVE_ZLIB )
     dev->rmtcomps |= SHRD_LIBZ;
-#endif
-#if defined( CCKD_BZIP2 )
     dev->rmtcomps |= SHRD_BZIP2;
-#endif
 
     /* Update the device handler vector */
     dev->hnd = &shared_fba_device_hndinfo;
@@ -1327,7 +1313,6 @@ const char* trcmsg;                     /* Header trace message      */
     hdrlen = SHRD_HDR_SIZE + (len - buflen);
     off = len - buflen;
 
-#if defined( HAVE_ZLIB )
     /* Compress the buf */
     if (1
         && dev->rmtcomp != 0
@@ -1563,7 +1548,6 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
 
     /* Check for compression */
     if (comp == SHRD_LIBZ) {
-#if defined( HAVE_ZLIB )
         unsigned long newlen;
 
         if (off > 0)
@@ -1578,15 +1562,9 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
             WRMSG( HHC00727, "E", rc, off, len - off );
             recvlen = -1;
         }
-#else
-        // "Shared: data compressed using method %s is unsupported"
-        WRMSG( HHC00728, "E", "libz" );
-        recvlen = -1;
-#endif
     }
     else if (comp == SHRD_BZIP2)
     {
-#if defined( CCKD_BZIP2 )
         unsigned int newlen;
 
         if (off > 0)
@@ -1602,11 +1580,6 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
             WRMSG( HHC00727, "E", rc, off, len - off );
             recvlen = -1;
         }
-#else
-        // "Shared: data compressed using method %s is unsupported"
-        WRMSG( HHC00728, "E", "bzip2" );
-        recvlen = -1;
-#endif
     }
 
     if (recvlen > 0)
@@ -2057,12 +2030,8 @@ char     trcmsg[32];
         break;
 
     case SHRD_COMPRESS:
-#if defined( HAVE_ZLIB )
         dev->shrd[ix]->comp = (flag & 0x0f);
         store_hw (buf, dev->shrd[ix]->comp);
-#else
-        store_hw (buf, 0);
-#endif
         dev->shrd[ix]->comps = (flag & 0xf0) >> 4;
         SHRD_SET_HDR (hdr, 0, 0, dev->devnum, id, 2);
         serverSend (dev, ix, hdr, buf, 2);
@@ -2203,7 +2172,6 @@ BYTE     cbuf[SHRD_HDR_SIZE + 65536];   /* Combined buffer           */
 
     SHRDHDRTRACE( "server send", hdr );
 
-#if defined( HAVE_ZLIB )
     /* Compress the buf */
     if (ix >= 0 && dev->shrd[ix]->comp != 0
      && code == SHRD_OK && status == 0
@@ -2228,7 +2196,6 @@ BYTE     cbuf[SHRD_HDR_SIZE + 65536];   /* Combined buffer           */
             SHRDHDRTRACE2( "server send", cbuf, "(compressed)" );
         }
     }
-#endif
 
     /* Build combined (hdr + data) buffer */
     if (buflen > 0)

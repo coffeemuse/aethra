@@ -190,19 +190,9 @@ static int decomptrk
     char*  emsg                 /* addr of 81 byte msg buf or NULL   */
 )
 {
-#if defined( HAVE_ZLIB ) || defined( CCKD_BZIP2 )
     int             rc;         /* Return code                       */
-#endif
     unsigned int    bufl;       /* Buffer length                     */
-#if defined( CCKD_BZIP2 )
     unsigned int    ubufl;      /* when size_t != unsigned int       */
-#endif
-
-#if !defined( HAVE_ZLIB ) && !defined( CCKD_BZIP2 )
-    UNREFERENCED(heads);
-    UNREFERENCED(trk);
-    UNREFERENCED(emsg);
-#endif
 
     memset(obuf, 0, obuflen);
 
@@ -215,7 +205,6 @@ static int decomptrk
         memcpy (obuf, ibuf, bufl);
         break;
 
-#if defined( HAVE_ZLIB )
     case CCKD_COMPRESS_ZLIB:
         memcpy (obuf, ibuf, CKD_TRKHDR_SIZE);
         bufl = obuflen - CKD_TRKHDR_SIZE;
@@ -239,9 +228,7 @@ static int decomptrk
         }
         bufl += CKD_TRKHDR_SIZE;
         break;
-#endif
 
-#if defined( CCKD_BZIP2 )
     case CCKD_COMPRESS_BZIP2:
         memcpy(obuf, ibuf, CKD_TRKHDR_SIZE);
         ubufl = obuflen - CKD_TRKHDR_SIZE;
@@ -269,7 +256,6 @@ static int decomptrk
         bufl=ubufl;
         bufl += CKD_TRKHDR_SIZE;
         break;
-#endif
 
     default:
         return -1;

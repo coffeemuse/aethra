@@ -168,21 +168,7 @@
   #include <byteswap.h>
  #endif
 #endif
-#ifdef HAVE_BZLIB_H
-  // windows.h #defines 'small' as char and bzlib.h
-  // uses it for a variable name so we must #undef.
-  #if defined(__CYGWIN__)
-    #undef small
-  #endif
   #include <bzlib.h>
-  /* ISW 20050427 : CCKD_BZIP2/HET_BZIP2 are usually */
-  /* controlled by config.h (automagic). If config.h */
-  /* is not present however, then define them here.  */
-  #if !defined(HAVE_CONFIG_H)
-    #define CCKD_BZIP2
-    #define HET_BZIP2
-  #endif
-#endif
   #include <dirent.h>
 #if defined(__MINGW__) || defined(_MSVC_)
   #include "w32dl.h"
@@ -199,9 +185,7 @@
   #include <signal.h>
   #include <time.h>
   #include <termios.h>
-#ifdef HAVE_ZLIB_H
   #include <zlib.h>
-#endif
 #ifdef HAVE_SYS_CAPABILITY_H
   #include <sys/capability.h>
 #endif

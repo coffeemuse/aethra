@@ -62,11 +62,7 @@ static off_t prevpos = 0;
 static void
 usage( char *name )
 {
-#if defined( HET_BZIP2 )
     char *bufbz = "                -b    use BZLIB compression\n";
-#else
-    char *bufbz = "";
-#endif
     // "Usage: %s ...
     WRMSG( HHC02730, "I", name, bufbz );
 }
@@ -378,11 +374,7 @@ main( int argc, char *argv[] )
 
     while( TRUE )
     {
-#if defined( HET_BZIP2 )
         rc = getopt( argc, argv, "bc:dhrsvz0123456789" );
-#else
-        rc = getopt( argc, argv, "c:dhrsvz0123456789" );
-#endif /* defined( HET_BZIP2 ) */
         if( rc == -1 )
         {
             break;
@@ -396,13 +388,11 @@ main( int argc, char *argv[] )
                 o_level = ( rc - '0' );
             break;
 
-#if defined( HET_BZIP2 )
             case 'b':                               /* Use BZLIB compression */
                 o_method = HETMETH_BZLIB;
                 o_compress = TRUE;
                 o_decompress = TRUE;
             break;
-#endif /* defined( HET_BZIP2 ) */
 
             case 'c':                               /* Chunk size           */
                 o_chunksize = atoi( optarg );
