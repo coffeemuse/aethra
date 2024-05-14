@@ -63,45 +63,18 @@
   /*                       GCC or CLANG                              */
   /*-----------------------------------------------------------------*/
 
-  #if defined( HAVE_GCC_DIAG_PRAGMA )
 
-    #define DISABLE_GCC_WARNING( _str )   QPRAGMA( GCC diagnostic ignored _str )
-    #define ENABLE_GCC_WARNING(  _str )   QPRAGMA( GCC diagnostic warning _str )
+  #define DISABLE_GCC_WARNING( _str )   QPRAGMA( GCC diagnostic ignored _str )
+  #define ENABLE_GCC_WARNING(  _str )   QPRAGMA( GCC diagnostic warning _str )
 
-    #if defined( HAVE_GCC_SET_UNUSED_WARNING )
-      #define DISABLE_GCC_UNUSED_SET_WARNING            \
-              DISABLE_GCC_WARNING("-Wunused-but-set-variable")
-    #endif
+  #define DISABLE_GCC_UNUSED_SET_WARNING            \
+          DISABLE_GCC_WARNING("-Wunused-but-set-variable")
 
-    #if defined( HAVE_GCC_UNUSED_FUNC_WARNING )
-      #define DISABLE_GCC_UNUSED_FUNCTION_WARNING       \
-              DISABLE_GCC_WARNING("-Wunused-function")
-    #endif
+  #define DISABLE_GCC_UNUSED_FUNCTION_WARNING       \
+          DISABLE_GCC_WARNING("-Wunused-function")
 
-    #if defined( HAVE_GCC_DIAG_PUSHPOP )
-      #define PUSH_GCC_WARNINGS()         QPRAGMA( GCC diagnostic push )
-      #define POP_GCC_WARNINGS()          QPRAGMA( GCC diagnostic pop  )
-    #endif
-
-  #endif /* defined( HAVE_GCC_DIAG_PRAGMA ) */
-
-  #ifndef   DISABLE_GCC_WARNING
-    #define DISABLE_GCC_WARNING( _str )              /* (do nothing) */
-    #define ENABLE_GCC_WARNING(  _str )              /* (do nothing) */
-  #endif
-
-  #ifndef   DISABLE_GCC_UNUSED_SET_WARNING
-    #define DISABLE_GCC_UNUSED_SET_WARNING           /* (do nothing) */
-  #endif
-
-  #ifndef   DISABLE_GCC_UNUSED_FUNCTION_WARNING
-    #define DISABLE_GCC_UNUSED_FUNCTION_WARNING      /* (do nothing) */
-  #endif
-
-  #ifndef   PUSH_GCC_WARNINGS
-    #define PUSH_GCC_WARNINGS()                      /* (do nothing) */
-    #define POP_GCC_WARNINGS()                       /* (do nothing) */
-  #endif
+  #define PUSH_GCC_WARNINGS()         QPRAGMA( GCC diagnostic push )
+  #define POP_GCC_WARNINGS()          QPRAGMA( GCC diagnostic pop  )
 
   /* I am tired of BOGUS warnings about = {0} struct initialization! */
   DISABLE_GCC_WARNING( "-Wmissing-field-initializers" )
