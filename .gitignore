@@ -11,7 +11,7 @@
 .libs/
 build/
 libltdl/
-Makefile
+# Makefile
 autogen.log
 autoreconf.log
 config.log
