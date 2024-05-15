@@ -600,57 +600,48 @@ typedef int CMPFUNC(const void*, const void*);
     #define DROP_ALL_CAPS()             // (do nothing)
     #define SETMODE(_func)              _SETMODE_ ## _func
 
-    #if defined( HAVE_SETREUID )
+    #define _SETMODE_INIT                                       \
+                                                                \
+      do                                                        \
+      {                                                         \
+          sysblk.ruid = getuid();                               \
+          sysblk.euid = geteuid();                              \
+          sysblk.rgid = getgid();                               \
+          sysblk.egid = getegid();                              \
+                                                                \
+          VERIFY( setregid( sysblk.egid, sysblk.rgid ) == 0 );  \
+          VERIFY( setreuid( sysblk.euid, sysblk.ruid ) == 0 );  \
+      }                                                         \
+      while(0)
 
-      #define _SETMODE_INIT                                         \
-                                                                    \
-          do                                                        \
-          {                                                         \
-              sysblk.ruid = getuid();                               \
-              sysblk.euid = geteuid();                              \
-              sysblk.rgid = getgid();                               \
-              sysblk.egid = getegid();                              \
-                                                                    \
-              VERIFY( setregid( sysblk.egid, sysblk.rgid ) == 0 );  \
-              VERIFY( setreuid( sysblk.euid, sysblk.ruid ) == 0 );  \
-          }                                                         \
-          while(0)
-
-
-      #define _SETMODE_ROOT                                         \
-                                                                    \
-          do                                                        \
-          {                                                         \
-              VERIFY( setregid( sysblk.rgid, sysblk.egid ) == 0 );  \
-              VERIFY( setreuid( sysblk.ruid, sysblk.euid ) == 0 );  \
-          }                                                         \
-          while(0)
+  #define _SETMODE_ROOT                                       \
+                                                              \
+    do                                                        \
+    {                                                         \
+        VERIFY( setregid( sysblk.rgid, sysblk.egid ) == 0 );  \
+        VERIFY( setreuid( sysblk.ruid, sysblk.euid ) == 0 );  \
+    }                                                         \
+    while(0)
 
 
-      #define _SETMODE_USER                                         \
-                                                                    \
-          do                                                        \
-          {                                                         \
-              VERIFY( setregid( sysblk.egid, sysblk.rgid ) == 0 );  \
-              VERIFY( setreuid( sysblk.euid, sysblk.ruid ) == 0 );  \
-          }                                                         \
-          while(0)
+    #define _SETMODE_USER                                       \
+                                                                \
+      do                                                        \
+      {                                                         \
+          VERIFY( setregid( sysblk.egid, sysblk.rgid ) == 0 );  \
+          VERIFY( setreuid( sysblk.euid, sysblk.ruid ) == 0 );  \
+      }                                                         \
+      while(0)
 
 
-      #define _SETMODE_TERM                                         \
-                                                                    \
-          do                                                        \
-          {                                                         \
-              VERIFY( setgid( sysblk.rgid ) == 0 );                 \
-              VERIFY( setuid( sysblk.ruid ) == 0 );                 \
-          }                                                         \
-          while(0)
-
-    #else // !defined( HAVE_SETEREUID )
-
-      #error Cannot figure out how to swap effective UID/GID! Maybe you should #define NO_SETUID?
-
-    #endif // defined( HAVE_SETREUID )
+    #define _SETMODE_TERM                                       \
+                                                                \
+      do                                                        \
+      {                                                         \
+          VERIFY( setgid( sysblk.rgid ) == 0 );                 \
+          VERIFY( setuid( sysblk.ruid ) == 0 );                 \
+      }                                                         \
+      while(0)
 
   #endif // defined( HAVE_SYS_CAPABILITY_H ) && defined( HAVE_SYS_PRCTL_H ) && defined( OPTION_CAPABILITIES )
 

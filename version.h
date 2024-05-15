@@ -18,20 +18,6 @@
 #define HERCULES_COPYRIGHT \
        "Copyright Roger Bowler, Jan Jaeger, and others"
 
-#if !defined( _MSVC_ )
-
-  // Due to autotool's insistance of defining 'VERSION' for us
-  // via a #define within the 'config.h' header (the value of
-  // which it derives from the 'configure.ac's "AM_INIT_AUTOMAKE"
-  // statement) instead of letting us define it ourselves, we
-  // must undefine it to the value that our '_dynamic_version'
-  // script determied it should be (which it saved for us in the
-  // 'DYNAMIC_VERSION' variable for obvious reasons).
-
-  #undef  VERSION
-  #define VERSION   DYNAMIC_VERSION
-#endif
-
 #if !defined(VERSION)
   #if defined(VERS_MAJ) && defined(VERS_INT) && defined(VERS_MIN) && defined(VERS_BLD)
     #define VER VERS_MAJ##.##VERS_INT##.##VERS_MIN##.##VERS_BLD

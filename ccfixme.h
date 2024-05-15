@@ -66,7 +66,7 @@
 
 #if defined( _MSVC_ )
   #define FIXME( _str )         __pragma( message( FIXME_LINE  _str ))
-#elif /* !defined( _MSVC_ ) */
+#else /* !defined( _MSVC_ ) */
   #define FIXME( _str )         QPRAGMA( message(  FIXME_LINE  _str ))
 #endif
 
@@ -80,7 +80,7 @@
 
 #if defined( _MSVC_ )
   #define TODO( _str )          __pragma( message( TODO_LINE  _str ))
-#elif /* !defined( _MSVC_ ) */
+#else /* !defined( _MSVC_ ) */
   #define TODO( _str )          QPRAGMA( message(  TODO_LINE  _str ))
 #endif
 
@@ -94,7 +94,7 @@
 
 #if defined( _MSVC_ )
   #define WARNING( _str )       __pragma( message( WARN_LINE  _str ))
-#elif /* !defined( _MSVC_ ) */
+#else /* !defined( _MSVC_ ) */
   #define WARNING( _str )       QPRAGMA( message(  WARN_LINE  _str ))
 #endif
 
@@ -108,7 +108,7 @@
 
 #if defined( _MSVC_ )
   #define NOTE( _str )          __pragma( message( NOTE_LINE  _str ))
-#elif /* !defined( _MSVC_ ) */
+#else /* !defined( _MSVC_ ) */
   #define NOTE( _str )          QPRAGMA( message(  NOTE_LINE  _str ))
 #endif
 
