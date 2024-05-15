@@ -239,7 +239,7 @@ int     len = 0;                        /* Number of bytes read      */
     if (len < reqlen)
     {
         // "Error in function %s: %s"
-#       FWRMSG( stderr, HHC02412, "E", "gzread()", "unexpected end of file" );
+        FWRMSG( stderr, HHC02412, "E", "gzread()", "unexpected end of file" );
         EXIT(3);
     }
 
