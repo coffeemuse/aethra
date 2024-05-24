@@ -88,8 +88,8 @@ config.log
 /hetmap
 /hetupd
 /hsys
-/libtool
-/makefile
+#/libtool
+#/makefile
 /htape
 /hutil
 /maketape
