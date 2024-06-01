@@ -1,6 +1,9 @@
 # Identification
 PACKAGE = hercules
-VERSION = 4.6.0
+VERS_MAJ=4
+VERS_INT=6
+VERS_MIN=0
+VERS_DEV=0
 # Compilation flags
 CC = gcc
 CFLAGS =  -g -g3 -ggdb3 -O3 -march=native -minline-stringops-dynamically -fomit-frame-pointer  -Wall  -W  -pthread  -D_GNU_SOURCE
@@ -723,10 +726,6 @@ ldadd = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftF
 #------------------------------------------------------------------------------
 
 # Now simply pass those version defines on the command-line...
-#AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) -D \
-#	DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D VERS_MAJ=$(VERS_MAJ) \
-#	-D VERS_INT=$(VERS_INT) -D VERS_MIN=$(VERS_MIN) -D \
-#	VERS_BLD=$(VERS_BLD) -D VERSION="\"$(VERSION)\""
 AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) \
 	-D DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D HOST_ARCH=\"$(host_cpu)\" \
 	-D VERSION=\"$(VERS_MAJ).$(VERS_INT).$(VERS_MIN).$(VERS_BLD)\" \
@@ -737,7 +736,6 @@ AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) \
 #       (ordering) of the SUBDIRS list is important!
 #------------------------------------------------------------------------------
 SUBDIRS = \
-  m4          \
   util        \
   html        \
   man         \
@@ -746,9 +744,6 @@ SUBDIRS = \
 #------------------------------------------------------------------------------
 # Invoke shell script to dynamically define version variables
 #------------------------------------------------------------------------------
-VERS_MAJ := $(shell $(top_srcdir)/_dynamic_version $(top_srcdir) VERS_MAJ)
-VERS_INT := $(shell $(top_srcdir)/_dynamic_version $(top_srcdir) VERS_INT)
-VERS_MIN := $(shell $(top_srcdir)/_dynamic_version $(top_srcdir) VERS_MIN)
 VERS_BLD := $(shell $(top_srcdir)/_dynamic_version $(top_srcdir) VERS_BLD)
 DYNAMIC_VERSION := $(shell $(top_srcdir)/_dynamic_version $(top_srcdir) VERSION )
 #HERCIFC =

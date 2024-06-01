@@ -9,7 +9,7 @@ top_srcdir="$1"
 vers_part="$2"
 cd "$top_srcdir"
 
-INFILE=configure.ac
+INFILE=Makefile
 MIN_GIT_VERSION="1.8"   # (earlier versions of git return inaccurate results)
 
 #-----------------------------------------------------------
