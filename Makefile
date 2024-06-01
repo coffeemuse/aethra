@@ -1,9 +1,9 @@
 # Identification
 PACKAGE = hercules
-VERS_MAJ=4
-VERS_INT=6
+VERS_MAJ=5
+VERS_INT=0
 VERS_MIN=0
-VERS_DEV=0
+VERS_DEV=1
 # Compilation flags
 CC = gcc
 CFLAGS =  -g -g3 -ggdb3 -O3 -march=native -minline-stringops-dynamically -fomit-frame-pointer  -Wall  -W  -pthread  -D_GNU_SOURCE
