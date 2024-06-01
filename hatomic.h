@@ -121,7 +121,7 @@
         #define CAN_IAF2    IAF2_MICROSOFT_INTRINSICS
       #elif defined( HAVE_ATOMIC_INTRINSICS )
         #define CAN_IAF2    IAF2_ATOMIC_INTRINSICS
-      #elif defined( HAVE_SYNC_BUILTINS )
+      #elif defined( HAVE___SYNC_FETCH_AND_ADD )
         #define CAN_IAF2    IAF2_SYNC_BUILTINS
       #else
         #define CAN_IAF2    IAF2_ATOMICS_UNAVAILABLE
@@ -140,7 +140,7 @@
 #elif CAN_IAF2 == IAF2_ATOMIC_INTRINSICS
   #define H_ATOMIC_OP( ptr, imm, op, Op, fallback )                 \
     (__atomic_ ## op ## _fetch( ptr, imm, __ATOMIC_SEQ_CST ))
-#elif defined( HAVE_SYNC_BUILTINS )
+#elif defined( HAVE___SYNC_FETCH_AND_ADD )
   #define H_ATOMIC_OP( ptr, imm, op, Op, fallback )                 \
     (__sync_ ## op ## _and_fetch( ptr, imm ))
 #elif CAN_IAF2 == IAF2_MICROSOFT_INTRINSICS

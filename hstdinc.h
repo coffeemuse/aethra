@@ -16,16 +16,6 @@
 //#define NOT_HERC              /* This is Hercules, NOT the utility */
 
 /*-------------------------------------------------------------------*/
-/*                Linux (non-Windows) CONFIG header                  */
-/*-------------------------------------------------------------------*/
-#ifdef HAVE_CONFIG_H
-  #ifndef    _CONFIG_H
-  #define    _CONFIG_H
-    #include <config.h>         /* Hercules build configuration      */
-  #endif /*  _CONFIG_H*/
-#endif
-
-/*-------------------------------------------------------------------*/
 /*               HQA: User build settings overrides                  */
 /*-------------------------------------------------------------------*/
 #include "hqainc.h"             /* User build settings overrides     */
@@ -85,9 +75,10 @@
   #include <windows.h>
 #endif
 
-#ifdef _MSVC_
-  #include <math.h>             // Must come BEFORE <intrin.h> due to
+#include <math.h>               // Must come BEFORE <intrin.h> due to
                                 // MS VC Bug ID 381422
+
+#ifdef _MSVC_
   #include <tchar.h>
   #include <wincon.h>
   #include <conio.h>
@@ -176,9 +167,6 @@
   #include <dlfcn.h>
 #endif
   #include <fenv.h>
-#if defined(HAVE_MATH_H) && !defined(_MSVC_)
-  #include <math.h>
-#endif
   #include <netdb.h>
   #include <pwd.h>
   #include <regex.h>

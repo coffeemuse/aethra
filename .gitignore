@@ -12,9 +12,7 @@
 build/
 libltdl/
 # Makefile
-autogen.log
-autoreconf.log
-config.log
+config.mk
 # autoconf/compile
 /aclocal.m4
 /autom4te.cache

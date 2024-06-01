@@ -12,10 +12,6 @@
 #ifndef _HTYPES_H_
 #define _HTYPES_H_
 
-#ifdef HAVE_CONFIG_H
-  #include <config.h>
-#endif
-
 /*-------------------------------------------------------------------*/
 /*         Standard fixed size integer and boolean types             */
 /*-------------------------------------------------------------------*/
@@ -82,16 +78,6 @@ typedef  uint8_t    QWORD[16];  // unsigned quadword   (16 bytes)
 /*-------------------------------------------------------------------*/
 /*                       Socket stuff                                */
 /*-------------------------------------------------------------------*/
-
-
-
-
-#if !defined( HAVE_STRUCT_IN_ADDR_S_ADDR ) && !defined( _WINSOCK_H )
-  struct in_addr
-  {
-    in_addr_t  s_addr;
-  };
-#endif
 
   // (The following are simply to silence some compile time warnings)
 #ifdef _MSVC_

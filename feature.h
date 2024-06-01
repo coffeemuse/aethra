@@ -5,13 +5,6 @@
 /*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
 /*  SPDX-License-Identifier: QPL-1.0                                 */
 
-#ifdef HAVE_CONFIG_H
-  #ifndef    _CONFIG_H
-  #define    _CONFIG_H
-    #include <config.h>         /* Hercules build configuration      */
-  #endif /*  _CONFIG_H*/
-#endif
-
 /*-------------------------------------------------------------------*/
 /*  The below section of code causes the 'featchk.h' header file     */
 /*  to be #included multiple times, each time accomplishing some-    */

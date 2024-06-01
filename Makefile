@@ -723,10 +723,13 @@ ldadd = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftF
 #------------------------------------------------------------------------------
 
 # Now simply pass those version defines on the command-line...
-AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) -D \
-	DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D VERS_MAJ=$(VERS_MAJ) \
-	-D VERS_INT=$(VERS_INT) -D VERS_MIN=$(VERS_MIN) -D \
-	VERS_BLD=$(VERS_BLD)
+#AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) -D \
+#	DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D VERS_MAJ=$(VERS_MAJ) \
+#	-D VERS_INT=$(VERS_INT) -D VERS_MIN=$(VERS_MIN) -D \
+#	VERS_BLD=$(VERS_BLD) -D VERSION="\"$(VERSION)\""
+AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) \
+	-D DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D HOST_ARCH=\"$(host_cpu)\" \
+	-D VERSION=\"$(VERS_MAJ).$(VERS_INT).$(VERS_MIN).$(VERS_BLD)\"
 
 #------------------------------------------------------------------------------
 # Note! Due to inter-module dependencies the sequence
@@ -2915,7 +2918,6 @@ diagnostic-vars:
 	@echo '  $$XSTATIC             $(XSTATIC)'
 
 # CHECK_HAVE(_GNU_SOURCE, string.h, memrchr)
-# CHECK_STRUCT(net/in.h, struct in_addr, s_addr)
 # CHECK_HAVE(linux/ipv6.h)
 # CHECK_SIZEOF(int *)
 # CHECK_HAVE(rexxsaa.h)
@@ -2926,13 +2928,14 @@ diagnostic-vars:
 # CHECK_SIZEOF(long)
 # CHECK_SIZEOF(pthread.h, pthread_t)
 # CHECK_HAVE(byteswap.h)
-# CHECK_HAVE(linux/if/tun.h)
+# CHECK_HAVE(linux/if_tun.h)
 # CHECK_DECL(sys/socket.h, netinet/in.h, netinet/tcp.h, TCP_KEEPIDLE)
 # CHECK_SIZEOF(stddef.h, size_t)
 # CHECK_HAVE(sys/mtio.h)
 # CHECK_HAVE(bzlib.h)
 # CHECK_WORDS_BIGENDIAN
 # CHECK_ENABLE(ipv6)
+# CHECK_ENABLE(build_hercifc)
 # CHECK_SIZEOF(int)
 # CHECK_HAVE(sys/prctl.h)
 # CHECK_DECL(sys/socket.h, netinet/in.h, netinet/tcp.h, TCP_KEEPCNT)
@@ -2940,3 +2943,4 @@ diagnostic-vars:
 # CHECK_HAVE(zlib.h)
 # CHECK_HAVE(sys/socket.h, netinet/in.h, arpa/inet.h, inet_aton)
 # CHECK_HAVE(getopt.h, getopt_long)
+# CHECK_HAVE(__sync_fetch_and_add)

@@ -21,7 +21,7 @@
 
 #include "hstdinc.h"
 
-#if defined(BUILD_HERCIFC)
+#if defined(ENABLE_BUILD_HERCIFC)
 #include "hercules.h"
 #include "hercifc.h"
 
@@ -283,5 +283,5 @@ int main( int argc, char **argv )
     UNREACHABLE_CODE( return -1 );
 }
 
-#endif // defined(BUILD_HERCIFC)
+#endif // defined(ENABLE_BUILD_HERCIFC)
 

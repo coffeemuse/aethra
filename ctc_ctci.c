@@ -239,7 +239,7 @@ int  CTCI_Init( DEVBLK* pDEVBLK, int argc, char *argv[] )
     /* would appear that the bit is permanent so that hercifc cannot */
     /* configure the interface.                                      */
     rc = TUNTAP_CreateInterface( pDevCTCBLK->szTUNCharDevName,
-#if defined(BUILD_HERCIFC)
+#if defined(ENABLE_BUILD_HERCIFC)
                                  (pDevCTCBLK->fPreconfigured ? IFF_NO_HERCIFC : 0) |
 #endif // __HERCIFC_H_
                                  IFF_TUN | IFF_NO_PI,
@@ -1038,7 +1038,7 @@ static void*  CTCI_ReadThread( void* arg )
     BYTE     szBuff[2048];
 
     // ZZ FIXME: Try to avoid race condition at startup with hercifc
-#if defined(BUILD_HERCIFC)
+#if defined(ENABLE_BUILD_HERCIFC)
     SLEEP(10);
 #endif
 
