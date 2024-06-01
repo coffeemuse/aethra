@@ -1146,8 +1146,7 @@ DLL_EXPORT DEVHND* hdl_DEVHND( const char* typname )
     modname = hdl_build_devmod_name( typname );
 
     if (0
-//        || hdl_loadmod( modname, HDL_LOAD_NOMSG ) != 0
-        || hdl_loadmod( modname, 0 ) != 0
+        || hdl_loadmod( modname, HDL_LOAD_NOMSG ) != 0
         || !(hnd = hdl_get_DEVHND( typname ))
     )
     {

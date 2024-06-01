@@ -729,7 +729,8 @@ ldadd = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftF
 #	VERS_BLD=$(VERS_BLD) -D VERSION="\"$(VERSION)\""
 AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) \
 	-D DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D HOST_ARCH=\"$(host_cpu)\" \
-	-D VERSION=\"$(VERS_MAJ).$(VERS_INT).$(VERS_MIN).$(VERS_BLD)\"
+	-D VERSION=\"$(VERS_MAJ).$(VERS_INT).$(VERS_MIN).$(VERS_BLD)\" \
+	-D LTDL_SHLIB_EXT=\".$(SOEXT)\"
 
 #------------------------------------------------------------------------------
 # Note! Due to inter-module dependencies the sequence
