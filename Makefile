@@ -6,10 +6,15 @@ VERS_MIN=0
 VERS_DEV=1
 # Compilation flags
 CC = gcc
-CFLAGS =  -g -g3 -ggdb3 -O3 -march=native -minline-stringops-dynamically -fomit-frame-pointer  -Wall  -W  -pthread  -D_GNU_SOURCE
+CFLAGS =  -g -g3 -ggdb3 -O3 -Wall -W -pthread -D_GNU_SOURCE
 CPPFLAGS =  -DPKGDATADIR=\"$(pkgdatadir)\" -DMODULESDIR=\"$(modexecdir)\" -DHERC_LOCALEDIR=\"$(localedir)\"
 LDFLAGS =  -Wl,--warn-common -L./crypto/lib -L./decNumber/lib -L./SoftFloat/lib -L./telnet/lib
 LIBS = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
+# Architecture-dependent compiler flags
+CFLAGS_x86_64 = -march=native -minline-stringops-dynamically -fomit-frame-pointer
+# CFLAGS_riscv64 = ...whatever flags are needed, possibly none
+CFLAGS_aarch64 = -march=native
+CFLAGS += $(CFLAGS_$(host_cpu))
 # Platform
 OBJEXT = o
 EXEEXT =
@@ -42,8 +47,6 @@ GZIP_ENV = --best
 top_builddir = .
 top_srcdir = .
 subdir = .
-# Backwards compatibility
-DEFS = -DHAVE_CONFIG_H
 # Portability kludges (not configuration variables)
 am__remove_distdir = \
   if test -d "$(distdir)"; then \
@@ -126,7 +129,7 @@ LIBTOOL = ./libtool # $(SHELL) $(top_builddir)/libtool
 CYGPATH_W = echo
 DEPDIR = .deps
 LIBS = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
-# conftrol variables end here
+# control variables end here
 -include ./config.mk
 
 am__is_gnu_make = { \
