@@ -4105,12 +4105,15 @@ U32 mask4;
 
         DEVBLK  *cua;
         U16      destlink;
-        int      i, work_rc, pfxlen, chpid;
+        int      i, work_rc, chpid;
         MAC      mac;
         HRB      hrb;
         char     c;
-        char    *p;
         static const BYTE zeromac[IFHWADDRLEN] = {0};
+#if defined( ENABLE_IPV6 )
+        int      pfxlen;
+        char    *p;
+#endif /* defined( ENABLE_IPV6 ) */
 
 #if defined( OPTION_W32_CTCI )
         /* The 'ipaddr' and 'netmask' are REQUIRED parameters */

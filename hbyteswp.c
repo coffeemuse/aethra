@@ -19,7 +19,8 @@
 
 #if !defined( _MSVC_ )                  \
  && !defined( NO_ASM_BYTESWAP )         \
- && !defined( HAVE_SWAP_BUILTINS )
+ && !defined( HAVE_SWAP_BUILTINS )      \
+ && !defined( HAVE_BYTESWAP_H )
 
     #include "htypes.h"   // (need Hercules fixed-size data types)
 

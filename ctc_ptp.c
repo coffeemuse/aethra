@@ -153,11 +153,9 @@ static int      write_rrh_C17E( DEVBLK* pDEVBLK, MPC_TH* pMPC_TH, MPC_RRH* pMPC_
 static int      write_rrh_C108( DEVBLK* pDEVBLK, MPC_TH* pMPC_TH, MPC_RRH* pMPC_RRH );
 
 static PTPHDR*  build_C108_will_you_start_4( DEVBLK* pDEVBLK );
-static PTPHDR*  build_C108_will_you_start_6( DEVBLK* pDEVBLK );
 static PTPHDR*  build_C108_i_will_start_4( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX, U16 uRCode );
 static PTPHDR*  build_C108_i_will_start_6( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX, U16 uRCode );
 static PTPHDR*  build_C108_my_address_4( DEVBLK* pDEVBLK );
-static PTPHDR*  build_C108_my_address_6( DEVBLK* pDEVBLK, u_int fLL );
 static PTPHDR*  build_C108_your_address_4( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX, U16 uRCode );
 static PTPHDR*  build_C108_your_address_6( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX, U16 uRCode );
 static PTPHDR*  build_C108_will_you_stop_4( DEVBLK* pDEVBLK );
@@ -166,6 +164,8 @@ static PTPHDR*  build_C108_i_will_stop_4( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX );
 static PTPHDR*  build_C108_i_will_stop_6( DEVBLK* pDEVBLK, MPC_PIX* pMPC_PIX );
 
 #if defined(ENABLE_IPV6)
+static PTPHDR*  build_C108_will_you_start_6( DEVBLK* pDEVBLK );
+static PTPHDR*  build_C108_my_address_6( DEVBLK* pDEVBLK, u_int fLL );
 static void     build_8108_icmpv6_packets( DEVBLK* pDEVBLK );
 #endif /* defined(ENABLE_IPV6) */
 
@@ -3397,6 +3397,7 @@ int  get_preconfigured_value( DEVBLK* pDEVBLK, PTPBLK* pPTPBLK )
     u_int                have_adll6 = FALSE;
     u_int                have_mall6 = FALSE;
     struct in6_addr      work6;
+    int                  j;
 #endif /* defined(ENABLE_IPV6) */
     struct {
       union {
@@ -3409,7 +3410,7 @@ int  get_preconfigured_value( DEVBLK* pDEVBLK, PTPBLK* pPTPBLK )
       unsigned int       bit;
       int                size;
     }                pfx;
-    int                  fd, rc, j;
+    int                  fd, rc;
     struct hifr          hifr;
 
 
@@ -6983,6 +6984,7 @@ PTPHDR*  build_C108_will_you_start_4( DEVBLK* pDEVBLK )
 /* ------------------------------------------------------------------ */
 // Build RRH 0xC108 PIX 0x0180 (Will you start IPv6?)
 
+#if defined(ENABLE_IPV6)
 PTPHDR*  build_C108_will_you_start_6( DEVBLK* pDEVBLK )
 {
     PTPATH*    pPTPATH      = pDEVBLK->dev_data;
@@ -7054,6 +7056,7 @@ PTPHDR*  build_C108_will_you_start_6( DEVBLK* pDEVBLK )
 
     return pPTPHDRre;
 }   /* End function  build_C108_will_you_start_6() */
+#endif /* defined(ENABLE_IPV6) */
 
 /* ------------------------------------------------------------------ */
 /* build_C108_i_will_start_4()                                        */
@@ -7293,6 +7296,7 @@ PTPHDR*  build_C108_my_address_4( DEVBLK* pDEVBLK )
 /* ------------------------------------------------------------------ */
 // Build RRH 0xC108 PIX 0x1180 (My address IPv6)
 
+#if defined(ENABLE_IPV6)
 PTPHDR*  build_C108_my_address_6( DEVBLK* pDEVBLK, u_int fLL )
 {
     PTPATH*    pPTPATH      = pDEVBLK->dev_data;
@@ -7357,13 +7361,11 @@ PTPHDR*  build_C108_my_address_6( DEVBLK* pDEVBLK, u_int fLL )
     STORE_HW( pMPC_PIXre->idnum, ++pPTPBLK->uIdNum );
     if (fLL)
     {
-#if defined(ENABLE_IPV6)
         memcpy( pMPC_PIXre->ipaddr, &pPTPBLK->iaDriveLLAddr6, 16 );
     }
     else
     {
         memcpy( pMPC_PIXre->ipaddr, &pPTPBLK->iaDriveIPAddr6, 16 );
-#endif /* defined(ENABLE_IPV6) */
     }
 
     // Display various information, maybe
@@ -7374,6 +7376,7 @@ PTPHDR*  build_C108_my_address_6( DEVBLK* pDEVBLK, u_int fLL )
 
     return pPTPHDRre;
 }   /* End function  build_C108_my_address_6() */
+#endif /* defined(ENABLE_IPV6) */
 
 /* ------------------------------------------------------------------ */
 /* build_C108_your_address_4()                                        */

@@ -165,6 +165,20 @@
   #define OPTION_TUNTAP_CLRIPADDR       /* TUNTAP_ClrIPAddr works    */
 #endif
 
+/*-------------------------------------------------------------------*/
+/* TCP keepalive options...                                          */
+/*-------------------------------------------------------------------*/
+#if defined(HAVE_DECL_SO_KEEPALIVE) || defined(HAVE_DECL_TCP_KEEPALIVE)
+  #define HAVE_BASIC_KEEPALIVE
+  #if defined(HAVE_DECL_TCP_KEEPCNT) || defined(HAVE_DECL_TCP_KEEPIDLE) || \
+      defined(HAVE_DECL_TCP_KEEPINTVL)
+    #define HAVE_PARTIAL_KEEPALIVE
+    #if defined(HAVE_DECL_TCP_KEEPCNT) && defined(HAVE_DECL_TCP_KEEPIDLE) && \
+        defined(HAVE_DECL_TCP_KEEPINTVL)
+      #define HAVE_FULL_KEEPALIVE
+    #endif
+  #endif
+#endif
 
 /*-------------------------------------------------------------------*/
 /* Hard-coded Windows-specific features and options...               */
