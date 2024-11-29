@@ -8,8 +8,9 @@ VERS_DEV=1
 CC = gcc
 CFLAGS =  -g -g3 -ggdb3 -O3 -Wall -W -pthread -D_GNU_SOURCE
 CPPFLAGS =  -DPKGDATADIR=\"$(pkgdatadir)\" -DMODULESDIR=\"$(modexecdir)\" -DHERC_LOCALEDIR=\"$(localedir)\"
-LDFLAGS =  -Wl,--warn-common -L./crypto/lib -L./decNumber/lib -L./SoftFloat/lib -L./telnet/lib
-LIBS = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
+#LDFLAGS =  -Wl,--warn-common -L./crypto/lib -L./decNumber/lib -L./SoftFloat/lib -L./telnet/lib
+LDFLAGS =  -L./crypto/lib -L./decNumber/lib -L./SoftFloat/lib -L./telnet/lib
+LIBS = -lresolv -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
 # Architecture-dependent compiler flags
 CFLAGS_x86_64 = -march=native -minline-stringops-dynamically -fomit-frame-pointer
 # CFLAGS_riscv64 = ...whatever flags are needed, possibly none
@@ -128,7 +129,7 @@ RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
 LIBTOOL = ./libtool # $(SHELL) $(top_builddir)/libtool
 CYGPATH_W = echo
 DEPDIR = .deps
-LIBS = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
+LIBS = -lresolv -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
 # control variables end here
 -include ./config.mk
 
@@ -720,7 +721,7 @@ extpkg_incdirs = -I ./crypto/include                     -I ./decNumber/include 
 extpkg_headers = ./crypto/include/aes.h                      ./crypto/include/crypto.h                   ./crypto/include/sha1.h                     ./crypto/include/sha256.h                   ./crypto/include/sshdes.h                       ./decNumber/include/aes.h                           ./decNumber/include/decnumber.h                     ./decNumber/include/sha1.h                          ./decNumber/include/sha256.h                        ./decNumber/include/sshdes.h                    ./SoftFloat/include/aes.h                           ./SoftFloat/include/softfloat.h                     ./SoftFloat/include/sha1.h                          ./SoftFloat/include/sha256.h                        ./SoftFloat/include/sshdes.h                    ./telnet/include/aes.h                      ./telnet/include/telnet.h                   ./telnet/include/sha1.h                     ./telnet/include/sha256.h                   ./telnet/include/sshdes.h
 extpkg_ldadd =
 hqa_inc = .
-ldadd = -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
+ldadd = -lresolv -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64
 
 #------------------------------------------------------------------------------
 # Note! Backslash line continuation is disallowed by newer versions of aclocal
@@ -2890,7 +2891,7 @@ diagnostic-vars:
 	@echo '  $$CPPFLAGS           $(CPPFLAGS)'
 	@echo ' '
 	@echo 'Values from configure'
-	@echo '  $$LIBS               -lrt -lresolv -lnsl -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64'
+	@echo '  $$LIBS               -lresolv -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -ltelnet64'
 	@echo '  $$S3FH_INC           @S3FH_INC@'
 	@echo '  $$S3FH_LIB           @S3FH_LIB@     (future use)'
 	@echo '  $$HQA_INC            .'
@@ -2936,6 +2937,7 @@ diagnostic-vars:
 # CHECK_ENABLE(build_hercifc)
 # CHECK_SIZEOF(int)
 # CHECK_HAVE(sys/prctl.h)
+# CHECK_HAVE(sys/sysctl.h)
 # CHECK_DECL(sys/socket.h, netinet/in.h, netinet/tcp.h, TCP_KEEPALIVE)
 # CHECK_DECL(sys/socket.h, netinet/in.h, netinet/tcp.h, SO_KEEPALIVE)
 # CHECK_DECL(sys/socket.h, netinet/in.h, netinet/tcp.h, TCP_KEEPIDLE)
@@ -2945,3 +2947,6 @@ diagnostic-vars:
 # CHECK_HAVE(sys/socket.h, netinet/in.h, arpa/inet.h, inet_aton)
 # CHECK_HAVE(getopt.h, getopt_long)
 # CHECK_HAVE(__sync_fetch_and_add)
+# CHECK_HAVE(__builtin_bswap64)
+# CHECK_HAVE(string.h, strlcpy)
+# CHECK_HAVE(string.h, strlcat)

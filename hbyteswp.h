@@ -13,6 +13,27 @@
 #ifndef _BYTESWAP_H
 #define _BYTESWAP_H
 
+/* Figure out if we have the __builtin_bswap64 builtin.          */
+/* This turns out to be unreasonably hard to do in configure due */
+/* to clang being pedantic about calling builtins instead of     */
+/* simply naming them.                                           */
+#if !defined( HAVE_SWAP_BUILTINS )
+  #if defined( __clang__ )
+    #if __has_builtin( __builtin_bswap64 )
+      #define HAVE_SWAP_BUILTINS 1
+    #endif
+  #elif defined( __GNUC__ )
+    #if __GNUC > 10   // only gcc 10 and above has this test
+      #if __has_builtin( __builtin_bswap64 )
+        #define HAVE_SWAP_BUILTINS 1
+      #endif
+    #endif
+  #endif
+  #if defined( HAVE___BUILTIN_BSWAP64 )
+    #define HAVE_SWAP_BUILTINS 1
+  #endif
+#endif
+
 /*--------------------------------------------------------------------
   The following sequence of tests allows platforms to use a compiler's
   builtin intrinsic byte swapping function even if it fails to provide
