@@ -135,7 +135,7 @@ def gencode(includes, snippets):
     #    print("gencode(includes=%s snippets=%s)" % (repr(includes), snippets))
     code = "".join(f"#define {fn}\n" for fn in includes if "." not in fn)
     code += "".join(f"#include <{fn}>\n" for fn in includes if "." in fn)
-    code += "int main(int argc, char *argv) {\n"
+    code += "int main(int argc, char **argv) {\n"
     code += "".join(snippets)
     code += "}\n"
     return code
@@ -163,6 +163,11 @@ def macroize(name):
 ## Others are not guaranteed to have stable interfaces
 ## or implementations.
 ##
+
+
+def stropen(fn, m="r"):
+    "Python 3 strings are incredibly annoying!"
+    return open(fn, m, encoding="ascii", errors="surrogateescape")
 
 
 def check_have(includes, others):
@@ -355,9 +360,7 @@ def check_script(arguments):
     for program_name in arguments:
         configdict = {"report": []}
         try:
-            with open(
-                program_name, "r", encoding="ascii", errors="surrogateescape"
-            ) as msrc:
+            with stropen(program_name, "r") as msrc:
                 exec(msrc.read(), configdict)
             defs.extend(configdict["report"])
         except (OSError, IOError) as exc:
@@ -482,10 +485,17 @@ if __name__ == "__main__":
 
         # This regexp was swiped for deconfig. Keep it in sync!
         includable = re.compile("[.]h|_.+?_SOURCE")
+        definition = re.compile("([A-Za-z0-9][A-Za-z0-9_]*) *=(.*)")
         results = []
+        definitions = {}
         try:
-            with open(infile, "r", encoding="ascii", errors="surrogateescape") as msrc:
+            with stropen(infile, "r") as msrc:
                 for (n, line) in enumerate(msrc):
+                    m = definition.match(line)
+                    if m:
+                        name = m.group(1)
+                        value = m.group(2).strip()
+                        definitions[name] = value
                     # This code has been swiped for deconfig. Keep it in sync!
                     m = re.match(r"#\s*CHECK_(\w+)\(([^)]+)\)", line)
                     if m:
@@ -558,8 +568,14 @@ if __name__ == "__main__":
         except (OSError, IOError) as exc:
             sys.stderr.write(f"{infile}: file or OS error opening input file\n")
             raise SystemExit(1) from exc
+        # Emulate autotools behavior of creating depdir if
+        # the file builds a shared library.
+        depdir = definitions.get("DEPDIR", ".deps")
+        if "LIBTOOL" in definitions:
+            if depdir and not os.path.isdir(depdir):
+                os.mkdir(depdir)
         try:
-            with open(outfile, "w", encoding="ascii", errors="surrogateescape") as mdst:
+            with stropen(outfile, "w") as mdst:
                 if helpmode:
                     if results:
                         mdst.write("\nConfiguration options:\n")
@@ -608,8 +624,8 @@ if __name__ == "__main__":
                         mdst.write(f"build_os = {build_os}\n")
                         mdst.write(f"host_cpu = {platform.machine()}\n")
                         mdst.write(f"host_os = {platform.system()}\n")
-                        mdst.write("# File extensions:\n")
                         # Now file extensions:
+                        mdst.write("# File extensions:\n")
                         if platform.system() == "Darwin":
                             mdst.write("EXEEXT = \n")
                             mdst.write("OBJEXT = o\n")
@@ -639,9 +655,7 @@ if __name__ == "__main__":
                             mdst.write(f"{k}={v}\n")
                     if config_h:
                         mdst.flush()
-                        with open(
-                            config_h, "w", encoding="ascii", errors="surrogateescape"
-                        ) as cdst:
+                        with stropen(config_h, "w") as cdst:
                             for (sym, val) in results:
                                 if sym.startswith("-D") and val:
                                     cdst.write(f"#define {sym[2:]} {val}\n")
