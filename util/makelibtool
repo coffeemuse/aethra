@@ -1,0 +1,33 @@
+#!/bin/sh
+# Make a non-broken libtool in the current directory.
+
+# Set the required variables
+LIBTOOL_VERSION="2.4.6"
+LIBTOOL_URL="https://ftpmirror.gnu.org/libtool/libtool-$LIBTOOL_VERSION.tar.gz"
+LIBTOOL_DIR="libtool-$LIBTOOL_VERSION"
+
+# Download the libtool source code
+wget "$LIBTOOL_URL"
+
+# Extract the source code
+tar -xzf "libtool-$LIBTOOL_VERSION.tar.gz"
+
+# Where are we?
+here=$(pwd)
+
+# Change to the libtool directory
+# shellcheck disable=SC2164
+cd "$LIBTOOL_DIR"
+
+# Configure and build libtool
+./configure
+make
+chmod a+x libtool
+
+# Save a copy
+cp libtool "${here}"
+
+# Clean up
+# shellcheck disable=SC2103
+cd ..
+rm -rf "$LIBTOOL_DIR" "libtool-$LIBTOOL_VERSION.tar.gz"

@@ -22,13 +22,19 @@
 -------------------------------------------------------------------------------
 
 
-                         BUILDING HERCULES
+                BUILDING HERCULES AETHRA VERSION 5
 
 
 This document describes how to build Hercules on Linux. If you are wanting
 to build the Windows version of Hercules, please refer to the README.WIN64
 document instead.
 
+
+                        -------------------
+                            Philosophy
+                        -------------------
+
+c
 
                         -------------------
                          Build Preparation
@@ -51,18 +57,17 @@ by the 'bldlvlck' script in the 'util' subdirectory:
      gawk        3.0    (or greater!)
      gcc         3.0    (or greater!)
      grep        1.0    (or greater!)
-     m4          1.4.6  (or greater!)
      make        3.79   (or greater!)
      perl        5.6    (or greater!)
      sed         3.02   (or greater!)
+     zlib        1.0    (or greater!)
+     libbz2      1.0    (or greater!)
 
 
 The following package(s) is(are) optional but highly recommended:
 
      Package   Version  (or greater!)
     ----------------------------------
-     zlib            ?                  (for ZLIB compression)
-     libbz2          ?                  (for BZIP2 compression)
      oorexx          ?                  (for REXX support)
 
 
@@ -78,6 +83,14 @@ External Packages for your CPU architecture before attempting to build
 Hercules if your CPU architecture is not x86 (or x86_64) or you have
 a non-mainstream Linux/Unix distribution. Refer the the README.EXTPKG
 document for more information.
+
+The first time you clone Aethra from the repository, you will need to
+build a version of the libtool utility for your system. Doing that is
+simple: just run the makelibtool utility supplied in the util directory.
+It will download the libtool package and build the proper version for
+your system. Once that's done, you may delete the libtool-{version}
+directory it created. The libtool script in the top level directory will
+work from that point forward.
 
 
                         -------------------
