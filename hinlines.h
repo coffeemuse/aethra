@@ -412,7 +412,7 @@ static inline void atomic_update32( volatile S32* p, S32 count )
 #if defined( _MSVC_ )
     InterlockedExchangeAdd( p, count );
 #else // GCC (and CLANG?)
-  #if defined( HAVE___SYNC_FETCH_AND_ADD )
+  #if defined( HAVE_BUILTIN___SYNC_FETCH_AND_ADD )
     __sync_fetch_and_add( p, count );
   #else
     *p += count;  /* (N.B. non-atomic!) */
@@ -424,14 +424,14 @@ static inline void atomic_update64( volatile S64* p, S64 count )
 #if defined( _MSVC_ )
     InterlockedExchangeAdd64( p, count );
 #else // GCC (and CLANG?)
-  #if defined( HAVE___SYNC_FETCH_AND_ADD )
+  #if defined( HAVE_BUILTIN___SYNC_FETCH_AND_ADD )
     __sync_fetch_and_add( p, count );
   #else
     *p += count;  /* (N.B. non-atomic!) */
   #endif
 #endif
 }
-#if !defined( _MSVC_ ) && !defined( HAVE___SYNC_FETCH_AND_ADD )
+#if !defined( _MSVC_ ) && !defined( HAVE_BUILTIN___SYNC_FETCH_AND_ADD )
   WARNING( "Missing atomic 32/64 bit increment support!" )
 #endif
 

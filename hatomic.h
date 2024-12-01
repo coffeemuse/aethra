@@ -121,7 +121,7 @@
         #define CAN_IAF2    IAF2_MICROSOFT_INTRINSICS
       #elif defined( HAVE_ATOMIC_INTRINSICS )
         #define CAN_IAF2    IAF2_ATOMIC_INTRINSICS
-      #elif defined( HAVE___SYNC_FETCH_AND_ADD )
+      #elif defined( HAVE_BUILTIN___SYNC_FETCH_AND_ADD )
         #define CAN_IAF2    IAF2_SYNC_BUILTINS
       #else
         #define CAN_IAF2    IAF2_ATOMICS_UNAVAILABLE
@@ -129,24 +129,6 @@
     #endif
 #else /* defined( DISABLE_IAF2 ) */
   #define CAN_IAF2          IAF2_ATOMICS_UNAVAILABLE
-#endif
-
-/* Figure out if we have the __sync_fetch_and_add builtin.       */
-/* This turns out to be unreasonably hard to do in configure due */
-/* to clang being pedantic about calling builtins instead of     */
-/* simply naming them.                                           */
-#if !defined( HAVE___SYNC_FETCH_AND_ADD )
-  #if defined( __clang__ )
-    #if __has_builtin( __sync_fetch_and_add )
-      #define HAVE___SYNC_FETCH_AND_ADD 1
-    #endif
-  #elif defined( __GNUC__ )
-    #if __GNUC > 10   // only gcc 10 and above has this test
-      #if __has_builtin( __sync_fetch_and_add )
-        #define HAVE___SYNC_FETCH_AND_ADD 1
-      #endif
-    #endif
-  #endif
 #endif
 
 #if CAN_IAF2 == IAF2_ATOMICS_UNAVAILABLE
@@ -158,7 +140,7 @@
 #elif CAN_IAF2 == IAF2_ATOMIC_INTRINSICS
   #define H_ATOMIC_OP( ptr, imm, op, Op, fallback )                 \
     (__atomic_ ## op ## _fetch( ptr, imm, __ATOMIC_SEQ_CST ))
-#elif defined( HAVE___SYNC_FETCH_AND_ADD )
+#elif defined( HAVE_BUILTIN___SYNC_FETCH_AND_ADD )
   #define H_ATOMIC_OP( ptr, imm, op, Op, fallback )                 \
     (__sync_ ## op ## _and_fetch( ptr, imm ))
 #elif CAN_IAF2 == IAF2_MICROSOFT_INTRINSICS
