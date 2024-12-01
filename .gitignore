@@ -11,11 +11,10 @@
 .libs/
 build/
 libltdl/
+libtool-*/
 # Makefile
 config.mk
-# autoconf/compile
-/aclocal.m4
-/autom4te.cache
+# compile
 /cckd2ckd
 /cckd642ckd
 /cckdcdsk
@@ -34,7 +33,6 @@ config.mk
 /conspawn
 /config.cache
 /config.h
-/config.h.in~
 /config.status
 /convto64
 /dasdcat
@@ -86,8 +84,7 @@ config.mk
 /hetmap
 /hetupd
 /hsys
-#/libtool
-#/makefile
+/libtool
 /htape
 /hutil
 /maketape
@@ -102,7 +99,6 @@ config.mk
 /msvc.dllmod.obj
 /msvc.dllmod.pdb
 /stamp-h
-/stamp-h.in
 /stamp-h1
 /tapecopy
 /tapemap
@@ -122,10 +118,6 @@ config.mk
 /intl/libintl.h
 /intl/ref-add.sed
 /intl/ref-del.sed
-
-# /m4/
-
-# /man/
 
 # /po/
 /po/POTFILES
