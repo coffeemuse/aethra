@@ -2946,7 +2946,10 @@ diagnostic-vars:
 # CHECK_HAVE(zlib.h)
 # CHECK_HAVE(sys/socket.h, netinet/in.h, arpa/inet.h, inet_aton)
 # CHECK_HAVE(getopt.h, getopt_long)
-# CHECK_HAVE(__sync_fetch_and_add)
-# CHECK_HAVE(__builtin_bswap64)
+# CHECK_BUILTIN(__sync_fetch_and_add)
+# CHECK_BUILTIN(__builtin_bswap64)
 # CHECK_HAVE(string.h, strlcpy)
 # CHECK_HAVE(string.h, strlcat)
+# These two can go away once decNumber is de-autoconf'd and de-cmake'd
+# CHECK_HAVE(inttypes.h)
+# CHECK_HAVE(stdbool.h)

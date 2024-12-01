@@ -135,7 +135,7 @@ def gencode(includes, snippets):
     #    print("gencode(includes=%s snippets=%s)" % (repr(includes), snippets))
     code = "".join(f"#define {fn}\n" for fn in includes if "." not in fn)
     code += "".join(f"#include <{fn}>\n" for fn in includes if "." in fn)
-    code += "int main(int argc, char **argv) {\n"
+    code += "int main(int argc, char *argv[]) {\n"
     code += "".join(snippets)
     code += "}\n"
     return code
@@ -192,6 +192,38 @@ def check_have(includes, others):
     elif undefines:
         for arg in includes + others:
             defs.append(("-UHAVE_" + macroize(arg), ""))
+    return defs
+
+
+# The first conditional could be
+# (defined(__GNUC__) && __GNUC__ >= 10) || (defined(__clang__) && __clang_major__ >= 16)
+# We chooe to test for the feature rather than the compiler versions that support it/
+intrinsic_template = """
+#if defined(__has_builtin)
+    #if !__has_builtin({0})
+        #error "{0} is not available as an intrinsic"
+    #endif
+#else
+        {0};\n
+#endif
+"""
+
+
+def check_builtin(includes, others):
+    "Perform BUILTIN checks for compiler inmtrinsics"
+    if debug >= TRACE_DEBUG:
+        print(f"check_builtin(includes={includes} others={others})")
+    snippets = []
+    for name in others:
+        snippets.append(intrinsic_template.format(name))
+    code = gencode(includes, snippets)
+    defs = []
+    if testcompile(code):
+        for arg in includes + others:
+            defs.append(("-DHAVE_BUILTIN_" + macroize(arg), ""))
+    elif undefines:
+        for arg in includes + others:
+            defs.append(("-UHAVE_BUILTIN_" + macroize(arg), ""))
     return defs
 
 
@@ -523,6 +555,8 @@ if __name__ == "__main__":
                         try:
                             if test == "HAVE":
                                 found = check_have(includes, others)
+                            elif test == "BUILTIN":
+                                found = check_builtin(includes, others)
                             elif test == "DECL":
                                 found = check_decl(includes, others)
                             elif test == "LIB":

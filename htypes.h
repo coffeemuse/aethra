@@ -16,7 +16,7 @@
 /*         Standard fixed size integer and boolean types             */
 /*-------------------------------------------------------------------*/
 
-  #include <inttypes.h>
+#include <inttypes.h>
 
 #ifndef int32_t
 #define int32_t                 int32_t         /* (used by extpkgs) */
@@ -37,7 +37,7 @@
   #endif
 #endif
 
-  #include <stdbool.h>
+#include <stdbool.h>
 
 /*-------------------------------------------------------------------*/
 /*              Hercules fixed size integer types                    */
