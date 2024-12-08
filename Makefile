@@ -339,7 +339,6 @@ libhdt3420_not_mod_la_LINK = $(LIBTOOL) --tag=CC \
 	$(LDFLAGS) -o $@
 libherc_la_DEPENDENCIES = libhercs.la libhercu.la libherct.la \
 	libhercd.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am__objects_1 =
 am_libherc_la_OBJECTS = _archdep_templ.lo archlvl.lo assist.lo \
 	bldcfg.lo cgibin.lo channel.lo chsc.lo clock.lo cmdtab.lo \
 	cmpsc_2012.lo cmpscdbg.lo cmpscdct.lo cmpscget.lo cmpscmem.lo \
@@ -354,7 +353,7 @@ am_libherc_la_OBJECTS = _archdep_templ.lo archlvl.lo assist.lo \
 	panel.lo pfpo.lo plo.lo qdio.lo scedasd.lo scescsi.lo \
 	script.lo service.lo sie.lo skey.lo sr.lo stack.lo \
 	strsignal.lo tcpip.lo timer.lo trace.lo transact.lo vector.lo \
-	vm.lo vmd250.lo vstore.lo x75.lo xstore.lo $(am__objects_1)
+	vm.lo vmd250.lo vstore.lo x75.lo xstore.lo
 libherc_la_OBJECTS = $(am_libherc_la_OBJECTS)
 libherc_la_LINK = $(LIBTOOL) --tag=CC \
 	$(LIBTOOLFLAGS) --mode=link $(CC) $(CFLAGS) \
@@ -386,12 +385,12 @@ libhercu_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 am__libhercu_la_SOURCES_DIST = codepage.c hdl.c hexdumpe.c hostinfo.c \
 	hscutl.c hsocket.c hthreads.c logger.c logmsg.c machdep.c \
 	memrchr.c parser.c pttrace.c version.c fthreads.c
-am__objects_2 = fthreads.lo
+#am__objects_2 = fthreads.lo
 #am__objects_3 = $(am__objects_2)
 am_libhercu_la_OBJECTS = codepage.lo hdl.lo hexdumpe.lo hostinfo.lo \
 	hscutl.lo hsocket.lo hthreads.lo logger.lo logmsg.lo \
-	machdep.lo memrchr.lo parser.lo pttrace.lo version.lo \
-	$(am__objects_3)
+	machdep.lo memrchr.lo parser.lo pttrace.lo version.lo 
+#	$(am__objects_3)
 libhercu_la_OBJECTS = $(am_libhercu_la_OBJECTS)
 libhercu_la_LINK = $(LIBTOOL) --tag=CC \
 	$(LIBTOOLFLAGS) --mode=link $(CC) $(CFLAGS) \
@@ -733,7 +732,7 @@ ldadd = -lresolv -lm -ldl  -lbz2 -lz -lcrypto64 -ldecNumber64 -lSoftFloat64 -lte
 AM_CPPFLAGS = -I $(top_srcdir) -I $(hqa_inc) $(extpkg_incdirs) \
 	-D DYNAMIC_VERSION=\"$(DYNAMIC_VERSION)\" -D HOST_ARCH=\"$(host_cpu)\" \
 	-D VERSION=\"$(VERS_MAJ).$(VERS_INT).$(VERS_MIN).$(VERS_BLD)\" \
-	-D LTDL_SHLIB_EXT=\".$(SOEXT)\"
+	-D LTDL_SHLIB_EXT=\".so\"
 
 #------------------------------------------------------------------------------
 # Note! Due to inter-module dependencies the sequence
