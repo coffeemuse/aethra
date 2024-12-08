@@ -9173,7 +9173,7 @@ int sizeof_cmd( int argc, char* argv[], char* cmdline )
     return 0;
 }
 
-#if defined( ENABLE_HAO )
+#if defined( ENABLE_HAO ) || !defined(_MSVC_)
 /*-------------------------------------------------------------------*/
 /* hao - Hercules Automatic Operator                                 */
 /*-------------------------------------------------------------------*/

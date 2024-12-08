@@ -103,7 +103,7 @@ HPAN_DLL_IMPORT void update_maxrates_hwm(); // (update high-water-mark values)
 HPAN_DLL_IMPORT void set_panel_colors();    // (set panel message colors)
 
 /* Functions in module hao.c (Hercules Automatic Operator) */
-#if defined(ENABLE_HAO)
+#if defined(ENABLE_HAO) || !defined(_MSVC_)
 HAO_DLL_IMPORT void hao_command(char *command); /* process hao command */
 #endif /* defined(ENABLE_HAO) */
 

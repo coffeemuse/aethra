@@ -2173,7 +2173,7 @@ COMMAND( "lsdep",                   lsdep_cmd,              SYSCMDNOPER,        
 COMMAND( "lsequ",                   lsequ_cmd,              SYSCMDNOPER,        lsequ_cmd_desc,         NULL                )
 COMMAND( "lsmod",                   lsmod_cmd,              SYSCMDNOPER,        lsmod_cmd_desc,         lsmod_cmd_help      )
 COMMAND( "rmmod",                   rmmod_cmd,              SYSCMDNOPER,        rmmod_cmd_desc,         NULL                )
-#if defined( ENABLE_HAO )
+#if defined( ENABLE_HAO ) || !defined( _MSVC_ )
 COMMAND( "hao",                     hao_cmd,                SYSPROGDEVEL,       hao_cmd_desc,           hao_cmd_help        )
 #endif
 COMMAND( "http",                    http_cmd,               SYSCONFIG,          http_cmd_desc,          http_cmd_help       )

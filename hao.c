@@ -19,7 +19,7 @@
 
 #include "hercules.h"
 
-#if defined(ENABLE_HAO)
+#if defined(ENABLE_HAO) || !defined(_MSVC_)
 
 /*---------------------------------------------------------------------------*/
 /* constants                                                                 */
