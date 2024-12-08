@@ -2952,3 +2952,4 @@ diagnostic-vars:
 # These two can go away once decNumber is de-autoconf'd and de-cmake'd
 # CHECK_HAVE(inttypes.h)
 # CHECK_HAVE(stdbool.h)
+# CHECK_SCRIPT(detect_rexx.py)
