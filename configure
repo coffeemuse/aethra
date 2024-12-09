@@ -197,7 +197,9 @@ def check_have(includes, others):
 
 # The first conditional could be
 # (defined(__GNUC__) && __GNUC__ >= 10) || (defined(__clang__) && __clang_major__ >= 16)
-# We chooe to test for the feature rather than the compiler versions that support it/
+# We choose to test for the feature rather than the compiler versions that support it.
+# Either choice could get us in trouble with compilers like icc or msvc.
+# Life is hard and we'll deal with those cases when we get bug reports.
 intrinsic_template = """
 #if defined(__has_builtin)
     #if !__has_builtin({0})
@@ -230,7 +232,7 @@ def check_builtin(includes, others):
 def check_decl(includes, others):
     "Perform HAVE_DECL checks for defined macros"
     if debug >= TRACE_DEBUG:
-        print(f"check_have(includes={includes} other={others})")
+        print(f"check_decl(includes={includes} other={others})")
     snippets = []
     for name in others:
         snippets.append(f"    {name};\n")
@@ -354,7 +356,7 @@ def check_option(args, enables):
 def check_words_bigendian():
     "Check endianness."
     if debug >= TRACE_DEBUG:
-        print("check_wors_bigendian")
+        print("check_words_bigendian")
     code = """
 /* Return status 1 if the machine is bigendian, 0 otherwise */
 #include <stdlib.h>
@@ -375,6 +377,8 @@ int main(int argc, char *argv[]) {
 
 def check_program(arguments):
     "Check for a specified proram being in $PATH and executable."
+    if debug >= TRACE_DEBUG:
+        print("check_program(arguments={arguments})")
     defs = []
     for program_name in arguments:
         if any(
@@ -388,6 +392,8 @@ def check_program(arguments):
 
 def check_script(arguments):
     "Run a Python script."
+    if debug >= TRACE_DEBUG:
+        print("check_script(arguments={arguments})")
     defs = []
     for program_name in arguments:
         configdict = {"report": []}
@@ -613,6 +619,7 @@ if __name__ == "__main__":
                 if helpmode:
                     if results:
                         mdst.write("\nConfiguration options:\n")
+                    print(results)
                     for text in results:
                         mdst.write(text + "\n")
                 else:
@@ -663,7 +670,7 @@ if __name__ == "__main__":
                         if platform.system() == "Darwin":
                             mdst.write("EXEEXT = \n")
                             mdst.write("OBJEXT = o\n")
-                            mdst.write("SOEXT = dynlib\n")
+                            mdst.write("SOEXT = dylib\n")
                         elif platform.system() == "Windows":
                             mdst.write("EXEEXT = .exe\n")
                             mdst.write("OBJEXT = obj\n")

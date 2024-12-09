@@ -32,8 +32,10 @@
 #define INCL_REXXSAA
 #if defined(HAVE_REGINA_REXXSAA_H)
   #include "regina/rexxsaa.h"
-#else
+#elif defined(HAVE_REXXSAA_H)
   #include "rexxsaa.h"
+#else
+  #error Regina REXX is defined but the headers were not found
 #endif
 
 /*-------------------------------------------------------------------*/

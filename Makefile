@@ -2952,4 +2952,5 @@ diagnostic-vars:
 # These two can go away once decNumber is de-autoconf'd and de-cmake'd
 # CHECK_HAVE(inttypes.h)
 # CHECK_HAVE(stdbool.h)
+# This detects the presence of Regina or OORexx and sets HAVE_{which}_REXX
 # CHECK_SCRIPT(detect_rexx.py)
