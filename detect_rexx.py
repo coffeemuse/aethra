@@ -25,7 +25,7 @@ def get_version(command):
             text=True, 
             check=True
         )
-        return result.stderr.strip()
+        return result.stderr.strip() + result.stdout.strip()
     except subprocess.CalledProcessError:
         return None
     except FileNotFoundError:
