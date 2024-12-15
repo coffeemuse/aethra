@@ -619,9 +619,9 @@ if __name__ == "__main__":
                 if helpmode:
                     if results:
                         mdst.write("\nConfiguration options:\n")
-                    print(results)
                     for text in results:
-                        mdst.write(text + "\n")
+                        if type(text) == str:
+                            mdst.write(text + "\n")
                 else:
                     if vpath != ".":
                         mdst.write("# Virtual path:\n")
