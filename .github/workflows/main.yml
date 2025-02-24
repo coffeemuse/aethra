@@ -259,7 +259,7 @@ jobs:
           tar xfz "$OPT_REGINA_TARFILE"
           pwd
           pushd $OPT_REGINA_DIR
-          ./configure --libdir=/usr/lib
+          ./configure --libdir=/usr/lib --enable-64bit
           ./config.status --config
           make
           sudo make install
