@@ -1,7 +1,7 @@
 name: Commit Build
 run-name: ${{ github.actor }} is doing a develop build
 
-# Build Hercules-Aethra from the latest commit
+# Build Hercules-Aethra from the latest commit 
 # WRL 13 APR 2024
 # WRL 23 FEB 2025 - Update to upload-artifact v4
 
