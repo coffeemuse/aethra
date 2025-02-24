@@ -40,19 +40,12 @@ jobs:
           # The shell to run commands with in the container
           shell: /bin/sh
 
-          # Install some dependencies in the container. This speeds up builds if
-          # you are also using githubToken. Any dependencies installed here will
-          # be part of the container image that gets cached, so subsequent
-          # builds don't have to re-install them. The image layer is cached
-          # publicly in your project's package repository, so it is vital that
-          # no secrets are present in the container state or logs.
+          # Install dependencies in build environment
           install: |
                 apt-get update -q -y
                 apt-get install -y wget curl git build-essential libregina3-dev sudo time cmake flex gawk m4 
                 apt-get install -y libltdl-dev autoconf automake libtool-bin libbz2-dev zlib1g-dev libcap2-bin
                 apt-get install -y ncat
-
-
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
@@ -60,8 +53,8 @@ jobs:
             mkdir herc && cd herc
             ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root --prefix=/artifacts/usr
             mkdir -p /artifacts/hercules/DEBIAN
+            #
             cat <<-EOF >/artifacts/hercules/DEBIAN/control
-
             Package: hercules
             Version: 1.0
             Section: utils
@@ -70,10 +63,9 @@ jobs:
             Maintainer: CoffeeMuse <[emailprotected]>
             Depends: libbz2-1.0,zlib1g,libcap2-bin
             Description: Hercules Aethra
-            A more detailed description of your package.
-            
+              A more detailed description of your package.
             EOF
-            
+            #
             mv /artifacts/usr /artifacts/hercules
             chmod -R 755 /artifacts/hercules/DEBIAN
             dpkg-deb --build /artifacts/hercules /artifacts/hercules-aethra-arm64.deb
@@ -85,8 +77,8 @@ jobs:
           ls -al "${PWD}/artifacts"
           tar -czvf "${PWD}/build.tar.gz" "${PWD}/artifacts/."
 
-      - name: Upload dpkg
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-           path: "build.tar.gz"
+           path: /artifacts/"
            name: "release.zips"
