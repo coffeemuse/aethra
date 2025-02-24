@@ -136,4 +136,10 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
-          tar -czvf "${PWD}/artifacts/build.tar.gz" "${PWD}/artifacts/."
+          tar -czvf "${PWD}/build.tar.gz" "${PWD}/artifacts/."
+
+      - name: Upload dpkg
+        uses: actions/upload-artifact@v4
+        with:
+           path: "build.tar.gz"
+           name: "release.zips"
