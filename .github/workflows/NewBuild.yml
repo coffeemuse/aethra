@@ -47,20 +47,14 @@ jobs:
           # publicly in your project's package repository, so it is vital that
           # no secrets are present in the container state or logs.
           install: |
-            case "${{ matrix.distro }}" in
-              ubuntu*|jessie|stretch|buster|bullseye)
                 apt-get update -q -y
-                apt-get install -q -y git
-                ;;
-              fedora*)
-                dnf -y update
-                dnf -y install git which
-                ;;
-              alpine*)
-                apk update
-                apk add git
-                ;;
-            esac
+                apt-get install -y wget curl git build-essential libregina3-dev
+                git clone https://github.com/wrljet/hercules-helper.git
+                mkdir herc && cd herc
+                ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi
+
+
+
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
