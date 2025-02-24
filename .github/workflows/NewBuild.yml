@@ -11,11 +11,7 @@ jobs:
       matrix:
         include:
           - arch: aarch64
-            distro: ubuntu22.04
-          - arch: aarch64
-            distro: bullseye 
-          - arch: ppc64le
-            distro: alpine_latest
+            distro: bookworm
 
     steps:
       - uses: actions/checkout@v4
