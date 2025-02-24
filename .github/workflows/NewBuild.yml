@@ -48,7 +48,7 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
                 apt-get update -q -y
-                apt-get install -y wget curl git build-essential libregina3-dev
+                apt-get install -y wget curl git build-essential libregina3-dev sudo
                 git clone https://github.com/wrljet/hercules-helper.git
                 mkdir herc && cd herc
                 ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root
