@@ -51,7 +51,7 @@ jobs:
                 apt-get install -y wget curl git build-essential libregina3-dev
                 git clone https://github.com/wrljet/hercules-helper.git
                 mkdir herc && cd herc
-                ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi
+                ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root
 
 
 
