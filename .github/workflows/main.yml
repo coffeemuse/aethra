@@ -43,6 +43,11 @@ run-name: ${{ github.actor }} is doing a develop build
 #
 
 on:
+   push:
+     branches:
+       - main
+       - develop
+       - autobuild
    workflow_dispatch:
 
 jobs:
