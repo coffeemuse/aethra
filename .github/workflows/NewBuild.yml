@@ -49,15 +49,15 @@ jobs:
           install: |
                 apt-get update -q -y
                 apt-get install -y wget curl git build-essential libregina3-dev sudo
-                git clone https://github.com/wrljet/hercules-helper.git
-                mkdir herc && cd herc
-                ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root
-
 
 
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
+            git clone https://github.com/wrljet/hercules-helper.git
+            mkdir herc && cd herc
+            ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root
+            
             cp $(which git) "/artifacts/${artifact_name}"
             echo "Produced artifact at /artifacts/${artifact_name}"
 
