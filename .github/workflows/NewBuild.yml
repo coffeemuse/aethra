@@ -48,7 +48,8 @@ jobs:
           # no secrets are present in the container state or logs.
           install: |
                 apt-get update -q -y
-                apt-get install -y wget curl git build-essential libregina3-dev sudo
+                apt-get install -y wget curl git build-essential libregina3-dev sudo time cmake flex gawk m4 
+                apt-get install -y libltdl-dev autoconf automake libtool-bin libbz2-dev zlib1g-dev libcap2-bin
 
 
 
