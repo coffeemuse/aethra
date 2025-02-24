@@ -58,77 +58,8 @@ jobs:
           run: |
             git clone https://github.com/wrljet/hercules-helper.git
             mkdir herc && cd herc
-            ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root
+            ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root --prefix=/artifacts
 
-
-            mkdir -p /artifacts/usr/bin
-            cd /artifacts
-            sudo cp /usr/bin/cckd2ckd ./usr/bin
-            sudo cp /usr/bin/cckd642ckd ./usr/bin
-            sudo cp /usr/bin/cckdcdsk ./usr/bin
-            sudo cp /usr/bin/cckdcdsk64 ./usr/bin
-            sudo cp /usr/bin/cckdcomp ./usr/bin
-            sudo cp /usr/bin/cckdcomp64 ./usr/bin
-            sudo cp /usr/bin/cckddiag ./usr/bin
-            sudo cp /usr/bin/cckddiag64 ./usr/bin
-            sudo cp /usr/bin/cckdmap ./usr/bin
-            sudo cp /usr/bin/cckdswap ./usr/bin
-            sudo cp /usr/bin/cckdswap64 ./usr/bin
-            sudo cp /usr/bin/cfba2fba ./usr/bin
-            sudo cp /usr/bin/cfba642fba ./usr/bin
-            sudo cp /usr/bin/ckd2cckd ./usr/bin
-            sudo cp /usr/bin/ckd2cckd64 ./usr/bin
-            sudo cp /usr/bin/convto64 ./usr/bin
-            sudo cp /usr/bin/dasdcat ./usr/bin
-            sudo cp /usr/bin/dasdconv ./usr/bin
-            sudo cp /usr/bin/dasdconv64 ./usr/bin
-            sudo cp /usr/bin/dasdcopy ./usr/bin
-            sudo cp /usr/bin/dasdcopy64 ./usr/bin
-            sudo cp /usr/bin/dasdinit ./usr/bin
-            sudo cp /usr/bin/dasdinit64 ./usr/bin
-            sudo cp /usr/bin/dasdisup ./usr/bin
-            sudo cp /usr/bin/dasdlist ./usr/bin
-            sudo cp /usr/bin/dasdload ./usr/bin
-            sudo cp /usr/bin/dasdload64 ./usr/bin
-            sudo cp /usr/bin/dasdls ./usr/bin
-            sudo cp /usr/bin/dasdpdsu ./usr/bin
-            sudo cp /usr/bin/dasdseq ./usr/bin
-            sudo cp /usr/bin/dasdser ./usr/bin
-            sudo cp /usr/bin/dmap2hrc ./usr/bin
-            sudo cp /usr/bin/fba2cfba ./usr/bin
-            sudo cp /usr/bin/fba2cfba64 ./usr/bin
-            sudo cp /usr/bin/hercifc ./usr/bin
-            sudo cp /usr/bin/herclin ./usr/bin
-            sudo cp /usr/bin/hercules ./usr/bin
-            sudo cp /usr/bin/hetget ./usr/bin
-            sudo cp /usr/bin/hetinit ./usr/bin
-            sudo cp /usr/bin/hetmap ./usr/bin
-            sudo cp /usr/bin/hetupd ./usr/bin
-            sudo cp /usr/bin/maketape ./usr/bin
-            sudo cp /usr/bin/tapecopy ./usr/bin
-            sudo cp /usr/bin/tapemap ./usr/bin
-            sudo cp /usr/bin/tapesplt ./usr/bin
-            sudo cp /usr/bin/tfprint ./usr/bin
-            sudo cp /usr/bin/tfswap ./usr/bin
-            sudo cp /usr/bin/txt2card ./usr/bin
-            sudo cp /usr/bin/vmfplc2 ./usr/bin
-            #
-            sudo mkdir -p ./usr/lib/hercules
-            sudo cp -R /usr/lib/hercules/* ./usr/lib/hercules
-            sudo cp /usr/lib/libhdt3420_not_mod.la ./usr/lib/
-            sudo cp /usr/lib/libhdt3420_not_mod.so ./usr/lib/
-            sudo cp /usr/lib/libhercd.la ./usr/lib/
-            sudo cp /usr/lib/libhercd.so ./usr/lib/
-            sudo cp /usr/lib/libherc.la ./usr/lib/
-            sudo cp /usr/lib/libhercs.la ./usr/lib/
-            sudo cp /usr/lib/libherc.so ./usr/lib/
-            sudo cp /usr/lib/libhercs.so ./usr/lib/
-            sudo cp /usr/lib/libherct.la ./usr/lib/
-            sudo cp /usr/lib/libherct.so ./usr/lib/
-            sudo cp /usr/lib/libhercu.la ./usr/lib/
-            sudo cp /usr/lib/libhercu.so ./usr/lib/
-            #
-            sudo cp -R /usr/share/hercules/ ./usr/share/
 
 
       - name: Show the artifact
