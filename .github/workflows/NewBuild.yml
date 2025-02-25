@@ -76,7 +76,7 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
-          tar -czvf "${PWD}/build.tar.gz" "${PWD}/artifacts/."
+          
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
