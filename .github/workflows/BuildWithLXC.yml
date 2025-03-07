@@ -1,0 +1,85 @@
+on: [push, pull_request]
+
+jobs:
+  build_job:
+    # The host should always be linux
+    runs-on: ubuntu-24.04-arm64 
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    # Run steps on a matrix of arch/distro combinations
+    # at the moment, we only need to build for aarch64 on bookworm
+    strategy:
+      matrix:
+        include:
+          - dist: debian
+            release: bookworm
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lkiesow/setup-lxc-container@v1
+        name: Build artifact
+        id: lxc
+        with:
+          dist: debian
+          release: bookworm
+ 
+          # Not required, but speeds up builds
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts/usr"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+
+          # Pass some environment variables to the container
+          env: | # YAML, but pipe character is necessary
+            artifact_name: git-${{ matrix.distro }}_${{ matrix.arch }}
+
+          # The shell to run commands with in the container
+          shell: /bin/sh
+
+          # Install dependencies in build environment
+          install: |
+                apt-get update -q -y
+                apt-get install -y wget curl git build-essential libregina3-dev sudo time cmake flex gawk m4 
+                apt-get install -y libltdl-dev autoconf automake libtool-bin libbz2-dev zlib1g-dev libcap2-bin
+                apt-get install -y ncat
+
+          # Produce a binary artifact and place it in the mounted volume
+          run: |
+            git clone https://github.com/wrljet/hercules-helper.git
+            mkdir herc && cd herc
+            ../hercules-helper/hercules-buildall.sh --auto --flavor=aethra --git-branch=develop --force-pi --accept-root --prefix=/artifacts/usr
+            mkdir -p /artifacts/hercules/DEBIAN
+            #
+            cat <<-EOF >/artifacts/hercules/DEBIAN/control
+            Package: hercules
+            Version: 1.0
+            Section: utils
+            Priority: optional
+            Architecture: arm64
+            Maintainer: CoffeeMuse <[emailprotected]>
+            Depends: libbz2-1.0,zlib1g,libcap2-bin
+            Description: Hercules Aethra
+              A more detailed description of your package.
+            EOF
+            #
+            mv /artifacts/usr /artifacts/hercules
+            chmod -R 755 /artifacts/hercules/DEBIAN
+            dpkg-deb --build /artifacts/hercules /artifacts/hercules-aethra-arm64.deb
+
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host.
+        run: |
+          ls -al "${PWD}/artifacts"
+          
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+           path: "hercules-aethra-arm64.deb"
+           name: "hercules-aethra-arm64.deb"
